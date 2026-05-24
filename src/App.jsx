@@ -1079,38 +1079,190 @@ export default function App() {
       return projectSort === 'newest' ? b.year - a.year : a.year - b.year;
     });
 
-  // --- DATA KATEGORI SKILLS (GAYA BADGE INDIVIDUAL DENGAN LOGO) ---
-  const skillsData = [
-    {
-      title: lang === 'id' ? 'Bahasa Pemrograman' : 'Programming Language',
-      desc: lang === 'id' ? 'Bahasa pemrograman dan pustaka utama.' : 'Core languages and libraries.',
-      items: [{ name: 'Python', icon: '🐍' }, { name: 'Java', icon: '☕' }, { name: 'C#', icon: '🔷' }, { name: 'C++', icon: '⚙️' }]
-    },
-    {
-      title: lang === 'id' ? 'Kerangka Kerja (Framework)' : 'Framework in Programming Language',
-      desc: lang === 'id' ? 'Beberapa kerangka kerja yang rutin saya gunakan.' : 'Some programming frameworks that I have used.',
-      items: [
-        { name: 'React.js', icon: '⚛️' }, { name: 'Next.js', icon: '⬛' }, 
-        { name: 'Django', icon: '🎸' }, { name: 'Laravel', icon: '🏮' }, 
-        { name: 'PHP', icon: '🐘' }, { name: 'CodeIgniter', icon: '🔥' },
-        { name: 'HTML', icon: '🌐' }, { name: 'CSS', icon: '🎨' }, { name: 'JavaScript', icon: '💛' }
-      ]
-    },
-    {
-      title: 'Database',
-      desc: lang === 'id' ? 'Manajemen data dan sistem penyimpanan aplikasi.' : 'Data management for app.',
-      items: [{ name: 'SQL Server', icon: '💾' }, { name: 'PostgreSQL', icon: '🐘' }, { name: 'MySQL', icon: '🐬' }, { name: 'Oracle', icon: '💽' }, { name: 'Redis', icon: '🔴' }]
-    },
-    {
-      title: lang === 'id' ? 'Alat Visualisasi & Pengembangan' : 'Tools, Monitoring, and Development Software',
-      desc: lang === 'id' ? 'Keahlian dalam menggunakan berbagai perangkat lunak pendukung.' : 'Proficiency in various software for development service and visualization.',
-      items: [
-        { name: 'Unity', icon: '🎮' }, { name: 'Blender', icon: '🧊' }, { name: 'Docker', icon: '🐳' }, 
-        { name: 'Git/GitHub', icon: '🐙' }, { name: 'GitLab', icon: '🦊' }, { name: 'Jira', icon: '📋' }, 
-        { name: 'Figma', icon: '🎨' }, { name: 'Power BI', icon: '📊' }, { name: 'Visio', icon: '📐' }
-      ]
-    }
-  ];
+// --- DATA KATEGORI SKILLS (RAPI & TANPA DUPLIKASI) ---
+const skillsData = [
+  {
+    title: lang === 'id' ? 'Programming Language' : 'Programming Language',
+    desc: lang === 'id'
+      ? 'Bahasa pemrograman utama untuk pengembangan software, backend, automation, dan interactive application.'
+      : 'Core programming languages for software, backend, automation, and interactive application development.',
+    items: [
+      { name: 'Python', icon: '🐍' },
+      { name: 'PHP', icon: '🐘' },
+      { name: 'JavaScript', icon: '🟨' },
+      { name: 'TypeScript', icon: '🔷' },
+      { name: 'C#', icon: '🎮' },
+      { name: 'Java', icon: '☕' },
+      { name: 'SQL', icon: '🗃️' }
+    ]
+  },
+
+  {
+    title: lang === 'id'
+      ? 'Frontend Development'
+      : 'Frontend Development',
+    desc: lang === 'id'
+      ? 'Teknologi frontend dan pengembangan antarmuka web modern.'
+      : 'Frontend technologies and modern web interface development.',
+    items: [
+      { name: 'React.js', icon: '⚛️' },
+      { name: 'Next.js', icon: '⬛' },
+      { name: 'Bootstrap', icon: '🟣' },
+      { name: 'TailwindCSS', icon: '💨' },
+      { name: 'HTML5', icon: '🌐' },
+      { name: 'CSS3', icon: '🎨' },
+      { name: 'AJAX', icon: '🔄' },
+      { name: 'jQuery', icon: '🧩' },
+      { name: 'Chart.js', icon: '📊' }
+    ]
+  },
+
+  {
+    title: lang === 'id'
+      ? 'Backend & API Development'
+      : 'Backend & API Development',
+    desc: lang === 'id'
+      ? 'Framework backend, API service, autentikasi, dan server-side development.'
+      : 'Backend frameworks, API services, authentication, and server-side development.',
+    items: [
+      { name: 'Laravel', icon: '🏮' },
+      { name: 'Django', icon: '🎸' },
+      { name: 'FastAPI', icon: '⚡' },
+      { name: 'Node.js', icon: '🟢' },
+      { name: 'REST API', icon: '🔗' },
+      { name: 'JWT Authentication', icon: '🔐' },
+      { name: 'MVC Architecture', icon: '🏗️' },
+      { name: 'CRUD System', icon: '📋' }
+    ]
+  },
+
+  {
+    title: lang === 'id'
+      ? 'Database & Data Engineering'
+      : 'Database & Data Engineering',
+    desc: lang === 'id'
+      ? 'Pengelolaan database, data warehouse, ETL process, dan engineering pipeline.'
+      : 'Database management, ETL process, data warehouse, and engineering pipeline.',
+    items: [
+      { name: 'MySQL', icon: '🐬' },
+      { name: 'PostgreSQL', icon: '🐘' },
+      { name: 'SQL Server', icon: '💾' },
+      { name: 'Oracle', icon: '🗄️' },
+      { name: 'Redis', icon: '🔴' },
+      { name: 'ETL Process', icon: '🔄' },
+      { name: 'Data Pipeline', icon: '🚰' },
+      { name: 'Data Cleaning', icon: '🧹' },
+      { name: 'Query Optimization', icon: '⚡' },
+      { name: 'Stored Procedure', icon: '📜' },
+      { name: 'Database Design', icon: '🧩' },
+      { name: 'Data Visualization', icon: '📈' }
+    ]
+  },
+
+  {
+    title: lang === 'id'
+      ? 'AI & Data Science'
+      : 'AI & Data Science',
+    desc: lang === 'id'
+      ? 'Machine learning, analisis data, dan statistical processing.'
+      : 'Machine learning, analytics, and statistical processing.',
+    items: [
+      { name: 'TensorFlow', icon: '🧠' },
+      { name: 'PyTorch', icon: '🔥' },
+      { name: 'Scikit-learn', icon: '📊' },
+      { name: 'Pandas', icon: '🐼' },
+      { name: 'NumPy', icon: '🔢' },
+      { name: 'Matplotlib', icon: '📉' },
+      { name: 'Jupyter Notebook', icon: '📒' },
+      { name: 'Google Colab', icon: '☁️' }
+    ]
+  },
+
+  {
+    title: lang === 'id'
+      ? 'Game Development & Gamification'
+      : 'Game Development & Gamification',
+    desc: lang === 'id'
+      ? 'Pengembangan game interaktif, gameplay programming, dan gamification system.'
+      : 'Interactive game development, gameplay programming, and gamification systems.',
+    items: [
+      { name: 'Unity', icon: '🎮' },
+      { name: 'Unity 2D', icon: '🕹️' },
+      { name: 'Game Programming', icon: '💻' },
+      { name: 'Gameplay Mechanics', icon: '⚙️' },
+      { name: 'Level Design', icon: '🗺️' },
+      { name: 'Enemy AI', icon: '👾' },
+      { name: 'Animation System', icon: '🎞️' },
+      { name: 'Tilemap System', icon: '🧩' },
+      { name: 'Game Physics', icon: '🌌' },
+      { name: 'Gamification', icon: '🏆' },
+      { name: 'Blender', icon: '🧊' },
+      { name: 'Aseprite', icon: '🎨' }
+    ]
+  },
+
+  {
+    title: lang === 'id'
+      ? 'AR, VR & Mixed Reality'
+      : 'AR, VR & Mixed Reality',
+    desc: lang === 'id'
+      ? 'Teknologi immersive development untuk Augmented Reality, Virtual Reality, dan Mixed Reality.'
+      : 'Immersive technologies for AR, VR, and Mixed Reality development.',
+    items: [
+      { name: 'Vuforia', icon: '📱' },
+      { name: 'AR Foundation', icon: '📲' },
+      { name: 'OpenXR', icon: '🌐' },
+      { name: 'XR Interaction Toolkit', icon: '🎯' },
+      { name: 'MRTK', icon: '⚡' },
+      { name: 'Marker-Based Tracking', icon: '📌' },
+      { name: 'Hand Tracking', icon: '✋' },
+      { name: 'Spatial Interaction', icon: '🧭' },
+      { name: '3D Object Interaction', icon: '📦' },
+      { name: 'HoloLens', icon: '👓' },
+      { name: 'Meta Quest', icon: '🥽' }
+    ]
+  },
+
+  {
+    title: lang === 'id'
+      ? 'DevOps & Development Tools'
+      : 'DevOps & Development Tools',
+    desc: lang === 'id'
+      ? 'Deployment, monitoring server, containerization, dan software collaboration.'
+      : 'Deployment, server monitoring, containerization, and software collaboration.',
+    items: [
+      { name: 'Docker', icon: '🐳' },
+      { name: 'Git', icon: '🐙' },
+      { name: 'GitHub', icon: '⚫' },
+      { name: 'GitLab', icon: '🦊' },
+      { name: 'Postman', icon: '📮' },
+      { name: 'Grafana', icon: '📊' },
+      { name: 'Prometheus', icon: '🔥' },
+      { name: 'Linux', icon: '🐧' },
+      { name: 'CI/CD', icon: '🔄' },
+      { name: 'RDP', icon: '🖥️' }
+    ]
+  },
+
+  {
+    title: lang === 'id'
+      ? 'UI/UX & Product Design'
+      : 'UI/UX & Product Design',
+    desc: lang === 'id'
+      ? 'Perancangan antarmuka, prototype, dan user experience.'
+      : 'Interface design, prototyping, and user experience.',
+    items: [
+      { name: 'Figma', icon: '🎨' },
+      { name: 'Wireframing', icon: '📝' },
+      { name: 'Prototyping', icon: '📱' },
+      { name: 'Design System', icon: '🧩' },
+      { name: 'User Flow', icon: '🔀' },
+      { name: 'Responsive Design', icon: '📐' },
+      { name: 'UI Design', icon: '🖌️' },
+      { name: 'UX Design', icon: '✨' }
+    ]
+  }
+];
 
   const c = globalData[lang];
   const profile = c.profile;
