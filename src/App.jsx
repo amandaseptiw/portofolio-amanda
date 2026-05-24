@@ -42,6 +42,8 @@ import projInven2 from './assets/portfolio/form inven.png';
 import projInven3 from './assets/portfolio/laporan inven.png';
 import projInven4 from './assets/portfolio/stok inven.png';
 
+// Import File CV
+import cvAmanda from './assets/cv/CV AMANDA SEPTI WULANDARI.pdf';
 
 import imgSaatIni from './assets/hero.png';
 
@@ -1449,9 +1451,14 @@ const skillsData = [
                 <a key={link.id} href={`#${link.id}`}>{link.label}</a>
               ))}
             </nav>
-            <button className="btn-download" onClick={() => alert('Mengunduh berkas riwayat hidup Amanda.')}>
-              {lang === 'id' ? 'Unduh CV Saya' : 'Download My CV'}
-            </button>
+            <a 
+  href={cvAmanda} 
+  download="CV_Amanda_Septi_Wulandari.pdf" 
+  className="btn-download" 
+  style={{ display: 'inline-block', textAlign: 'center', textDecoration: 'none', boxSizing: 'border-box' }}
+>
+  {lang === 'id' ? 'Unduh CV Saya' : 'Download My CV'}
+</a>
           </aside>
 
           <section className="right-content">
