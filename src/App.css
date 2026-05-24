@@ -1461,25 +1461,37 @@ nav.glass-nav button.active {
   display: none; /* Sembunyikan secara default di laptop/PC */
 }
 
+.right-controls {
+  display: flex;
+  align-items: center;
+  gap: 15px; /* Memberi jarak antara bahasa dan hamburger */
+}
+
 .mobile-menu-wrapper {
-  display: contents; /* MAGIC: Mempertahankan layout flexbox asli di desktop! */
+  display: contents; /* Mempertahankan layout asli di desktop */
 }
 
 /* Pengaturan Khusus untuk Layar HP / Tablet Kecil */
 @media (max-width: 850px) {
   .top-header {
-    position: relative; /* Agar menu menempel pas di bawah header */
+    position: relative;
+    justify-content: space-between; /* Jam di kiri, Bahasa & Hamburger di kanan */
+  }
+
+  .desktop-only {
+    display: none; /* Menyembunyikan teks 'Asia/Jakarta' di layar kecil */
   }
 
   .hamburger-btn {
     display: block;
     background: transparent;
     border: none;
-    font-size: 24px;
+    font-size: 26px;
     color: var(--maroon);
     cursor: pointer;
     z-index: 101;
     transition: 0.3s ease;
+    padding: 0;
   }
   
   .hamburger-btn:hover {
@@ -1500,9 +1512,8 @@ nav.glass-nav button.active {
     border-radius: 0 0 20px 20px;
     border-bottom: 1px solid var(--glass-border);
     box-shadow: 0 15px 40px rgba(145, 30, 30, 0.15);
-    gap: 20px;
     
-    /* Efek Animasi Sembunyi/Tampil */
+    /* Efek Animasi Dropdown */
     opacity: 0;
     visibility: hidden;
     transform: translateY(-20px);
@@ -1516,7 +1527,6 @@ nav.glass-nav button.active {
     transform: translateY(0);
   }
 
-  /* Rapikan Navigasi agar memanjang ke bawah di HP */
   .mobile-menu-wrapper .glass-nav {
     flex-direction: column;
     width: 100%;
@@ -1527,13 +1537,5 @@ nav.glass-nav button.active {
     width: 100%;
     padding: 12px;
     border-radius: 10px;
-  }
-
-  /* Rapikan Jam dan Bahasa di HP */
-  .mobile-menu-wrapper .right-controls {
-    width: 100%;
-    justify-content: center;
-    padding-top: 15px;
-    border-top: 1px solid rgba(145, 30, 30, 0.1);
   }
 }

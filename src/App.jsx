@@ -1275,16 +1275,10 @@ const skillsData = [
       
       {/* 1. GLOBAL HEADER NAVIGASI */}
       <header className="top-header">
+        
+        {/* Jam di Kiri */}
         <div className="time-display">{time || '11:45:58'} WIB</div>
         
-        {/* Tombol Hamburger (Hanya tampil di HP) */}
-        <button 
-          className="hamburger-btn" 
-          onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-        >
-          {isMobileMenuOpen ? '✖' : '☰'}
-        </button>
-
         {/* Wrapper Menu untuk Layar Mobile */}
         <div className={`mobile-menu-wrapper ${isMobileMenuOpen ? 'open' : ''}`}>
           <nav className="glass-nav">
@@ -1301,15 +1295,28 @@ const skillsData = [
               </button>
             ))}
           </nav>
-
-          <div className="right-controls">
-            <span className="timezone">Asia/Jakarta</span>
-            <div className="lang-switch">
-              <button className={lang === 'en' ? 'active' : ''} onClick={() => setLang('en')}>EN</button>
-              <button className={lang === 'id' ? 'active' : ''} onClick={() => setLang('id')}>ID</button>
-            </div>
-          </div>
         </div>
+
+        {/* Kontrol Kanan (Bahasa & Hamburger berada di LUAR menu mobile) */}
+        <div className="right-controls">
+          {/* Teks Asia/Jakarta (Disembunyikan di HP agar tidak sempit) */}
+          <span className="timezone desktop-only">Asia/Jakarta</span>
+          
+          {/* Pengubah Bahasa */}
+          <div className="lang-switch">
+            <button className={lang === 'en' ? 'active' : ''} onClick={() => setLang('en')}>EN</button>
+            <button className={lang === 'id' ? 'active' : ''} onClick={() => setLang('id')}>ID</button>
+          </div>
+
+          {/* Tombol Hamburger (Hanya tampil di HP) */}
+          <button 
+            className="hamburger-btn" 
+            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+          >
+            {isMobileMenuOpen ? '✖' : '☰'}
+          </button>
+        </div>
+
       </header>
 
       {/* 2. TAB MENU: DASHBOARD (HERO + ID CARD) */}
