@@ -1353,7 +1353,11 @@ const skillsData = [
             <div className="fp-content-grid">
               
               <div className="fp-left-col">
-                <h2>{lang === 'id' ? 'Dashboard HCU: Sistem Pemantauan Internal' : 'HCU Dashboard: Internal Monitoring System'}</h2>
+                <h3 style={{ fontSize: '38px' }}>
+                  {lang === 'id' 
+                    ? 'Dashboard Monitoring HCU Production' 
+                    : 'HCU Production Monitoring Dashboard'}
+                </h3>
               </div>
 
               <div className="fp-right-col">
@@ -1364,23 +1368,43 @@ const skillsData = [
                 
                 <p className="fp-desc">
                   {lang === 'id' 
-                    ? 'Aplikasi full-stack yang mengintegrasikan berbagai sistem manajemen internal ke dalam satu pusat kendali. Dilengkapi dengan antarmuka yang ramah pengguna untuk pengelolaan data secara real-time, memastikan akuntabilitas dan efisiensi operasional.' 
-                    : 'A full-stack application integrating multiple internal management systems into a central hub. It features a user-friendly interface for real-time data processing, ensuring accountability and operational efficiency.'}
+                    ? 'Sistem monitoring produksi berbasis web yang dikembangkan untuk memantau performa operasional manufaktur secara real-time di PT Astra Komponen Indonesia. Dashboard ini mengintegrasikan OEE Monitoring, Order Sheet, Andon System, Delivery, Warehouse Management, Quality Control, hingga monitoring manpower dan material dalam satu pusat kendali terintegrasi guna meningkatkan efisiensi produksi dan akurasi pengambilan keputusan.' 
+                    : 'A web-based production monitoring system developed to track manufacturing operational performance in real-time at PT Astra Komponen Indonesia. This dashboard integrates OEE Monitoring, Order Sheet, Andon System, Delivery, Warehouse Management, Quality Control, to manpower and material monitoring into a single integrated control center to improve production efficiency and decision-making accuracy.'}
                 </p>
 
-                {/* Tech Stack Pills ala Referensi */}
                 <div className="fp-tech-tags">
                   <span className="fp-tag"><i>🐍</i> Python</span>
                   <span className="fp-tag"><i>🎸</i> Django</span>
+                  <span className="fp-tag"><i>💾</i> SQL Server</span>
                   <span className="fp-tag"><i>🐘</i> PostgreSQL</span>
+                  <span className="fp-tag"><i>🔄</i> AJAX Polling</span>
+                  <span className="fp-tag"><i>📊</i> Chart.js</span>
                   <span className="fp-tag"><i>🎨</i> Bootstrap</span>
                 </div>
 
-                <button className="fp-read-btn" onClick={() => setTab('project')}>
-                  {lang === 'id' ? 'Lihat studi kasus ↗' : 'Read case study ↗'}
+                {/* Tombol Pintasan Langsung ke Detail HCU */}
+                <button 
+                  className="fp-read-btn" 
+                  onClick={() => {
+                    // 1. Ubah menu ke tab Project
+                    setTab('project'); 
+                    
+                    // 2. Cari data proyek yang judulnya "Dashboard Monitoring HCU"
+                    const hcuProject = projectsData.find(proj => proj.title === "Dashboard Monitoring HCU"); 
+                    
+                    // 3. Buka langsung halaman detailnya
+                    if (hcuProject) {
+                      setActiveProject(hcuProject); 
+                    }
+                    
+                    // 4. Gulir layar ke paling atas agar rapi
+                    window.scrollTo({ top: 0, behavior: 'smooth' }); 
+                  }}
+                >
+                  {lang === 'id' ? 'Lihat studi kasus ↗' : 'View case study ↗'}
                 </button>
-              </div>
 
+              </div>
             </div>
           </div>
         </section>
