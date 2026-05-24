@@ -35,10 +35,50 @@ import projTTI from './assets/portfolio/tti.png';
 import projAVI from './assets/portfolio/absensi.png';
 import projDNT from './assets/portfolio/DNTruck.png';
 import projHCU from './assets/portfolio/hcu.png';
+import projACV from './assets/portfolio/piachiv.png';
+import projoee from './assets/portfolio/oee.png';
+import projmenumr from './assets/portfolio/menu-mr.jpg';
+import projInven2 from './assets/portfolio/form inven.png';
+import projInven3 from './assets/portfolio/laporan inven.png';
+import projInven4 from './assets/portfolio/stok inven.png';
+
+
+import imgSaatIni from './assets/hero.png';
+
+// Komponen Kustom untuk Slider Gambar
+const ImageSlider = ({ images }) => {
+  const [currentIndex, setCurrentIndex] = useState(0);
+
+  const nextSlide = () => setCurrentIndex((prev) => (prev === images.length - 1 ? 0 : prev + 1));
+  const prevSlide = () => setCurrentIndex((prev) => (prev === 0 ? images.length - 1 : prev - 1));
+
+  if (!images || images.length === 0) return null;
+
+  return (
+    <div className="exp-slider-container">
+      {images.length > 1 && (
+        <button className="slider-btn prev" onClick={prevSlide}>&#10094;</button>
+      )}
+      
+      <img src={images[currentIndex]} alt="Cuplikan Proyek" className="slider-image" />
+      
+      {images.length > 1 && (
+        <>
+          <button className="slider-btn next" onClick={nextSlide}>&#10095;</button>
+          <div className="slider-indicators">
+            {images.map((_, idx) => (
+              <span key={idx} className={`dot ${idx === currentIndex ? 'active' : ''}`} />
+            ))}
+          </div>
+        </>
+      )}
+    </div>
+  );
+};
 
 export default function App() {
   const [lang, setLang] = useState('id'); 
-  const [tab, setTab] = useState('project'); // Diset ke project agar kamu langsung lihat filter
+  const [tab, setTab] = useState('dashboard'); // Diset ke project agar kamu langsung lihat filter
   const [time, setTime] = useState('');
   
   const [visitorCount, setVisitorCount] = useState(0); 
@@ -51,6 +91,14 @@ export default function App() {
 
   // State untuk Pop-up Gambar (Lightbox)
   const [selectedImage, setSelectedImage] = useState(null);
+
+  // --- STATE BARU UNTUK HALAMAN DETAIL PROYEK ---
+  const [activeProject, setActiveProject] = useState(null);
+
+  // Reset activeProject jika pengguna berpindah tab menu
+  useEffect(() => {
+    setActiveProject(null);
+  }, [tab]);
 
   useEffect(() => {
     const timer = setInterval(() => {
@@ -71,25 +119,27 @@ export default function App() {
   const globalData = {
     id: {
       nav: { dashboard: 'Dashboard', profil: 'Profil', project: 'Project', sertifikat: 'Sertifikat' },
-      role: 'Full-Stack Engineer & Spesialis AR/VR',
-      heroTitle: "Saya Amanda Septi W.,",
-      heroHighlight: "Full-Stack Engineer & Spesialis AR/VR",
-      heroSub: "Dari simulasi pelatihan AR/VR hingga integrasi dashboard industri real-time — Saya membangun sistem digitalisasi yang presisi.",
-      featProj: "Sistem Delivery Note (Pemilihan Printer Manual)",
+      role: 'Full-Stack Engineer & Digitalization Specialist',
+      heroTitle: "Amanda Septi Wulandari",
+      heroHighlight: "Full-Stack Engineer & Digitalization Specialist",
+      heroSub: "Menggabungkan pengembangan full-stack, rekayasa data, dan teknologi AR/VR/MR (XR) untuk menciptakan solusi digital yang inovatif, terintegrasi, dan berorientasi pada transformasi industri.",
       glance: [
-        { stat: "100+", desc: "Logistik Truk Dikelola/Hari" },
-        { stat: "OEE", desc: "Dashboard Tren Harian" },
-        { stat: "RPA", desc: "Otomatisasi Alur Kerja UiPath" },
-        { stat: "XR", desc: "Integrasi HoloLens & VR" }
+        { stat: "10+", desc: "Projects Built" },
+        { stat: "3+", desc: "Digitalization Fields" },
+        { stat: "Full-Stack", desc: "Engineering Focus" },
+        { stat: "XR", desc: "AR • VR • MR Development" }
       ],
       profile: {
-        bio: 'Lulusan Teknik Informatika Universitas Gunadarma dengan keahlian kuat di bidang Full-Stack Web Development, Manajemen Basis Data (DBMS), dan Analisis Data. Terampil dalam mengembangkan sistem produksi real-time, alur kerja otomatisasi, serta aplikasi web end-to-end. Berkomitmen untuk memanfaatkan teknologi dalam menciptakan solusi berdampak di era Industri 4.0.',
+        bio: [
+          'Lulusan Teknik Informatika dari Universitas Gunadarma dengan minat dan keahlian di bidang Full-Stack Web Development, Manajemen Basis Data (DBMS), Analisis Data, Digitalisasi Sistem, serta pengembangan teknologi Augmented Reality (AR), Virtual Reality (VR), Mixed Reality (MR), dan Extended Reality (XR). Berpengalaman dalam mengembangkan aplikasi web end-to-end, sistem monitoring produksi real-time, dashboard analitik, serta otomatisasi alur kerja untuk mendukung transformasi digital di lingkungan industri. Memiliki kemampuan dalam merancang dan mengintegrasikan solusi berbasis web dan teknologi imersif guna meningkatkan efisiensi operasional, efektivitas training, dan pengalaman pengguna secara interaktif.',
+          'Terampil menggunakan berbagai teknologi dan tools pengembangan perangkat lunak untuk membangun sistem yang scalable, terstruktur, dan berorientasi pada kebutuhan pengguna. Selain itu, memiliki kemampuan dalam pengolahan dan analisis data untuk mendukung pengambilan keputusan yang lebih akurat dan strategis. Berkomitmen untuk terus mengembangkan inovasi digital yang relevan, adaptif, dan berdampak dalam mendukung perkembangan Industri 4.0 dan transformasi teknologi di masa depan.'
+        ],
         sidebarNav: [
           { id: 'intro', label: 'Perkenalan' },
-          { id: 'skills', label: 'Keahlian Teknis' },
           { id: 'wins', label: 'Pencapaian' },
           { id: 'experience', label: 'Pengalaman Kerja' },
-          { id: 'education', label: 'Pendidikan' }
+          { id: 'education', label: 'Pendidikan' },
+          { id: 'skills', label: 'Keahlian Teknis' }
         ],
         winsTitle: 'Pencapaian Utama',
         wins: [
@@ -98,40 +148,85 @@ export default function App() {
           { icon: '🥽', title: '70% Efektivitas Onboarding', desc: 'Aplikasi Pelatihan Mixed Reality interaktif menggunakan HoloLens.' },
           { icon: '📊', title: 'IPK 3.82/4.00', desc: 'Lulusan Sarjana Teknik Informatika, Universitas Gunadarma.' }
         ],
-        expTitle: 'Pengalaman Kerja',
         exp: [
-          { company: 'PT Astra Komponen Indonesia', date: 'Des 2025 - Sekarang', role: 'Digitalization & Automation Intern', desc: 'Mengembangkan sistem produksi real-time untuk 100+ mesin (Andon, OEE). Mengelola database SQL Server & PostgreSQL.' },
-          { company: 'PT Astra Visteon Indonesia', date: 'Sep 2024 - Nov 2025', role: 'Gamification & Digitalization Intern', desc: 'Membantu pengembangan aplikasi pelatihan AR/VR menggunakan 50+ objek 3D interaktif. Terlibat migrasi database MySQL ke SQL Server.' }
-        ],
+          { 
+            company: 'PT Astra Komponen Indonesia', 
+            date: 'Des 2025 - Sekarang', 
+            role: 'Digitalization & Automation Intern', 
+            descList: [
+              'Mengembangkan dan meningkatkan 10+ fitur pada sistem produksi real-time untuk 100+ mesin dengan 1.000+ transaksi data harian.',
+              'Membangun modul industri termasuk Andon, OEE, pelacakan rejection, dashboard pencapaian, part list, PO, order sheet, DN Truck, dan sistem pelaporan.',
+              'Merancang dashboard real-time, visualisasi data, dan laporan analitik untuk mendukung pemantauan produksi dan pengambilan keputusan.',
+              'Mengelola database SQL Server & PostgreSQL (100+ tabel) yang menangani 10.000+ data/hari dengan integritas data tinggi.',
+              'Mengembangkan fitur backend menggunakan Django (Python) dan mengimplementasikan pipeline CI/CD melalui deployment berbasis Git.'
+            ],
+          images: [projHCU, projDNT, projACV, projoee] 
+          },
+          { 
+            company: 'PT Astra Visteon Indonesia', 
+            date: 'Sep-Des 2024, Jun-Nov 2025', 
+            role: 'Gamification & Digitalization Intern', 
+            descList: [
+              'Membantu pengembangan aplikasi pelatihan AR/VR dan Mixed Reality menggunakan 50+ model 3D interaktif untuk pelatihan teknis dan simulasi produksi.',
+              'Berpartisipasi dalam aktivitas migrasi database dari MySQL ke SQL Server, termasuk validasi data dan penyesuaian skema.',
+              'Mendukung perancangan konsep digitalisasi INDI 4.0 dan platform web untuk meningkatkan aksesibilitas dan integrasi data produksi.',
+              'Membantu memberikan sesi pelatihan berbasis VR kepada 20+ operator produksi dan membantu pemetaan tata letak produksi serta gudang menggunakan Microsoft Visio.'
+            ],
+            images: [projMR, projAravi, projAVI]
+          }
+        ],  
         eduTitle: 'Pendidikan',
         edu: [
-          { company: 'Universitas Gunadarma', date: 'Sep 2021 - Sep 2025', role: 'S1 Teknik Informatika', desc: 'IPK: 3.82/4.00. Fokus pada rekayasa perangkat lunak dan arsitektur basis data.' },
-          { company: 'Coding Camp powered by DBS Foundation', date: 'Feb 2026 - Mar 2026', role: 'Data Science Learning Path', desc: 'Pelatihan intensif Python, bahasa SQL, dan pemodelan dasar Machine Learning.' }
+          { 
+            company: 'Universitas Gunadarma', 
+            date: 'Sep 2021 - Sep 2025', 
+            role: 'S1 Informatika | IPK: 3.82 ', 
+            descList: [
+              'Fokus pada rekayasa perangkat lunak, arsitektur basis data, dan analitik data.',
+              'Mengikuti program MSIB Batch 6 & 7 di bidang gamification dan pengembangan teknologi interaktif',
+              'Mengikuti kursus LEPKOM bidang Database Management System (DBMS)',
+            ]
+          },
+          { 
+            company: 'Infinite Learning', 
+            date: 'Feb 2024 – Jun 2024 · Remote', 
+            role: 'MSIB Batch 6 — Introduction to Game Design (2D)', 
+            descList: [
+              'Mempelajari Game Design, gameplay mechanics, level design, dan Game Design Document (GDD).',
+              'Mengimplementasikan GDD ke dalam game coding dan pengembangan game 2D.',
+              'Memahami Game UI, Sound Design, asset management, serta monetization strategy.',
+              'Mengembangkan kemampuan komunikasi, kolaborasi, adaptasi, dan presentasi.',
+              'Program diselenggarakan oleh Infinite Learning bekerja sama dengan RMIT University melalui program MSIB Batch 6.',
+              <span>Proyek Akhir: <a href="https://itch.io/jam/infinite-learning-game-batch-6/rate/2707334" target="_blank" rel="noreferrer">Relic Shaman</a></span>
+            ]
+          }
         ],
-        skillsTitle: 'Technical Skills'
+        skillsTitle: 'Keahlian Teknis'
       }
     },
     en: {
       nav: { dashboard: 'Dashboard', profil: 'Profile', project: 'Projects', sertifikat: 'Certificates' },
-      role: 'Full-Stack Engineer & AR/VR Specialist',
-      heroTitle: "I'm Amanda Septi W.,",
-      heroHighlight: "AI/ML Engineer and Full-Stack Developer",
-      heroSub: "From immersive AR/VR training to real-time industrial dashboards — I build digital systems that work in production.",
-      featProj: "Delivery Note System (Manual Printer Select)",
+      role: 'Full-Stack Engineer & Digitalization Specialist',
+      heroTitle: "Amanda Septi Wulandari",
+      heroHighlight: "Full-Stack Engineer & Digitalization Specialist",
+      heroSub: "Combining full-stack development, data engineering, and AR/VR/MR (XR) technologies to create innovative, integrated digital solutions focused on industrial transformation.",
       glance: [
-        { stat: "100+", desc: "Truck Records Managed/Day" },
-        { stat: "OEE", desc: "Daily Trends Dashboard" },
-        { stat: "RPA", desc: "UiPath Workflow Automation" },
-        { stat: "XR", desc: "HoloLens & VR Integration" }
+        { stat: "10+", desc: "Projects Built" },
+        { stat: "3+", desc: "Digitalization Fields" },
+        { stat: "Full-Stack", desc: "Engineering Focus" },
+        { stat: "XR", desc: "AR • VR • MR Development" }
       ],
       profile: {
-        bio: 'Informatics Engineering graduate from Universitas Gunadarma with strong expertise in Full-Stack Development, DBMS, and Data Analytics. Skilled in developing real-time production systems, data visualization dashboards, and XR (AR/VR/MR) training applications to support Industry 4.0 digitalization.',
+        bio: [
+          'Informatics Engineering graduate from Universitas Gunadarma with interest and expertise in Full-Stack Web Development, Database Management Systems (DBMS), Data Analytics, System Digitalization, and the development of Augmented Reality (AR), Virtual Reality (VR), Mixed Reality (MR), and Extended Reality (XR) technologies. Experienced in developing end-to-end web applications, real-time production monitoring systems, analytical dashboards, and workflow automation to support digital transformation in industrial environments. Capable of designing and integrating web-based solutions and immersive technologies to enhance operational efficiency, training effectiveness, and interactive user experiences.',
+          'Skilled in utilizing various software development technologies and tools to build scalable, structured, and user-oriented systems. Additionally, proficient in data processing and analysis to support more accurate and strategic decision-making. Committed to continuously developing digital innovations that are relevant, adaptive, and impactful in supporting the evolution of Industry 4.0 and future technological transformations.'
+        ],
         sidebarNav: [
           { id: 'intro', label: 'Introduction' },
-          { id: 'skills', label: 'Technical Skills' },
           { id: 'wins', label: 'Selected Wins' },
           { id: 'experience', label: 'Work Experience' },
-          { id: 'education', label: 'Education' }
+          { id: 'education', label: 'Education' },
+          { id: 'skills', label: 'Technical Skills' }
         ],
         winsTitle: 'Selected Wins',
         wins: [
@@ -142,126 +237,695 @@ export default function App() {
         ],
         expTitle: 'Work Experience',
         exp: [
-          { company: 'PT Astra Komponen Indonesia', date: 'Dec 2025 - Present', role: 'Intern - Digitalization & Automation', desc: 'Developed 10+ features in real-time systems. Managed large SQL Server databases.' },
-          { company: 'PT Astra Visteon Indonesia', date: 'Sep-Dec 2024, Jun-Nov 2025', role: 'Intern - Gamification & Digitalization', desc: 'Created AR/VR training configurations using 50+ interactive 3D objects, migrated schemas from MySQL to SQL Server.' }
+          { 
+            company: 'PT Astra Komponen Indonesia', 
+            date: 'Dec 2025 - Present', 
+            role: 'Intern - Digitalization & Automation', 
+            descList: [
+              'Developed and enhanced 10+ features in a real-time production system for 100+ machines with 1,000+ daily data transactions.',
+              'Built industrial modules including Andon, OEE, rejection tracking, achievement dashboard, part list, PO, order sheet, DN Truck, and reporting systems.',
+              'Designed real-time dashboards, data visualization, and analytical reports to support production monitoring and decision-making.',
+              'Managed SQL Server & PostgreSQL databases (100+ tables) handling 10,000+ records/day with high data integrity.',
+              'Developed backend features using Django (Python) and implemented CI/CD pipelines via Git-based deployment for system updates and reliability.'
+            ],
+            images: [projHCU, projDNT, projACV, projoee]  
+          },
+          { 
+            company: 'PT Astra Visteon Indonesia', 
+            date: 'Sep-Dec 2024, Jun - Nov 2025', 
+            role: 'Intern - Gamification & Digitalization', 
+            descList: [
+              'Assisted in developing AR/VR and Mixed Reality training applications using 50+ interactive 3D models for technical training and production simulations.',
+              'Participated in database migration activities from MySQL to SQL Server, including data validation and schema adjustments.',
+              'Supported the design of INDI 4.0 digitalization concepts and web platforms to improve accessibility and production data integration.',
+              'Helped deliver VR-based training sessions to 20+ production operators and assisted with production and warehouse layout mapping using Microsoft Visio.'
+            ],
+            images: [projMR, projAravi, projAVI]
+          }
         ],
         eduTitle: 'Education',
         edu: [
-          { company: 'Gunadarma University', date: 'Sep 2021 - Sep 2025', role: 'Bachelor of Informatics', desc: 'GPA: 3.82/4.00. Focus on software engineering and database architectures.' },
-          { company: 'Coding Camp powered by DBS Foundation', date: 'Feb 2026 - Mar 2026', role: 'Data Science Learning Path', desc: 'Intensive training on Python, SQL, and foundational Machine Learning.' }
+          { 
+            company: 'Universitas Gunadarma', 
+            date: 'Sep 2021 - Sep 2025', 
+            role: 'Bachelor of Informatics | GPA of 3.82', 
+            descList: [
+              'Focused on software engineering, database architecture, and data analytics.',
+              'Participated in MSIB Batch 6 & 7 programs in gamification and interactive technology development.',
+              'Completed LEPKOM courses in Database Management System (DBMS).',
+            ]
+          },
+          { 
+            company: 'Infinite Learning', 
+            date: 'Feb 2024 – Jun 2024 · Remote', 
+            role: 'MSIB Batch 6 — Introduction to Game Design (2D)', 
+            descList: [
+              'Learned Game Design, gameplay mechanics, level design, and Game Design Document (GDD) development.',
+              'Implemented GDD concepts into game coding and 2D game development.',
+              'Gained understanding of Game UI, Sound Design, asset management, and monetization strategies.',
+              'Developed communication, collaboration, adaptability, and presentation skills.',
+              'Program organized by Infinite Learning in collaboration with RMIT University through the MSIB Batch 6 program.',
+              <span>Final Project: <a href="https://itch.io/jam/infinite-learning-game-batch-6/rate/2707334" target="_blank" rel="noreferrer">Relic Shaman</a></span>
+            ]
+          }
         ],
         skillsTitle: 'Technical Skills'
       }
     }
   };
 
-  // --- DATABASE PROJECT PORTFOLIO ---
+ // --- DATABASE PROJECT PORTFOLIO ---
   const projectsData = [
     {
       title: "Dashboard Monitoring HCU",
       category: "Website",
       year: 2026,
       img: projHCU,
-      desc: "“Dashboard Monitoring HCU berbasis web di PT Astra Komponen Indonesia yang digunakan untuk memantau proses produksi secara real-time, dilengkapi fitur OEE Monitoring, Order Sheet, Andon System, Achievement Production, Delivery, Quality Control, Warehouse Management, hingga monitoring manpower dan material untuk meningkatkan efisiensi operasional produksi.",
-      demoLink: "#" 
+      desc: "Dashboard Monitoring HCU merupakan sistem berbasis web yang dikembangkan di PT Astra Komponen Indonesia untuk mendukung monitoring operasional produksi secara real-time. Sistem ini digunakan untuk memantau berbagai aktivitas manufaktur mulai dari OEE Monitoring, Order Sheet, Andon System, Achievement Production, Delivery Management, Quality Control, Warehouse Management, hingga monitoring manpower dan material guna meningkatkan efisiensi, akurasi, dan pengambilan keputusan operasional.",
+      detailImages: [projHCU, projACV, projoee],
+
+      overview:
+        "Sistem monitoring produksi terpusat berbasis web yang dikembangkan menggunakan Django untuk membantu proses digitalisasi dan visualisasi performa produksi secara real-time di PT Astra Komponen Indonesia. Dashboard ini mengintegrasikan data dari berbagai divisi seperti produksi, warehouse, delivery, quality system, dan manpower dalam satu platform terpusat sehingga mempermudah proses monitoring, evaluasi, dan pengambilan keputusan operasional.",
+
+      features: [
+        "Monitoring Produksi Real-Time: Menampilkan data produksi secara langsung dari berbagai line dan mesin produksi untuk memantau performa operasional secara akurat.",
+        
+        "OEE & Achievement Dashboard: Menyediakan visualisasi Overall Equipment Effectiveness (OEE), achievement production, dan performa harian dalam bentuk grafik interaktif dan summary report.",
+        
+        "Andon & Order Sheet System: Mendukung monitoring status produksi, kendala mesin, serta pengelolaan order sheet untuk meningkatkan respons operasional dan efisiensi kerja.",
+        
+        "Delivery & Warehouse Management: Mengelola data delivery, warehouse finish goods, incoming material, recycle material, dan material component secara terintegrasi.",
+        
+        "Quality Control Monitoring: Membantu proses monitoring kualitas produksi dan validasi data untuk menjaga standar mutu produk.",
+        
+        "Manpower & Material Tracking: Memantau penggunaan manpower dan material produksi untuk membantu pengendalian operasional dan efisiensi resource.",
+        
+        "Database Integration: Terintegrasi dengan SQL Server dan PostgreSQL untuk pengolahan data produksi dan logistik dengan volume data besar secara stabil dan efisien.",
+        
+        "Interactive Data Visualization: Mengimplementasikan dashboard interaktif menggunakan grafik, tabel monitoring, dan data summary untuk mempermudah analisis performa produksi."
+      ],
+
+      techs: [
+        "Python", "Django", "SQL Server", "PostgreSQL", 
+        "Bootstrap", "JavaScript", "AJAX Polling", "HTML5", 
+        "CSS3", "jQuery", "REST API", "Chart.js", "Git"
+      ]
     },
     {
-      title: "Delivery Note Truck",
-      category: "Website",
-      year: 2026,
-      img: projDNT,
-      desc: "Website Delivery Note Management System berbasis web di PT Astra Komponen Indonesia yang membantu proses pembuatan, monitoring, dan pencetakan Delivery Note (DN) truck secara cepat dan terintegrasi, dilengkapi fitur tracking status pengiriman, report DN, data truck, serta manajemen destinasi pengiriman.",
-      demoLink: "#" 
-    },
+  title: "Delivery Note System Truck",
+  category: "Website",
+  year: 2026,
+  img: projDNT,
+  
+  desc: "Delivery Note System Truck merupakan sistem manajemen logistik berbasis web yang dikembangkan untuk mengelola proses distribusi dan pengiriman barang menggunakan armada truk secara real-time. Sistem ini mendukung pembuatan Delivery Note (DN), monitoring status pengiriman, tracking operasional truk, pengelolaan route destination, hingga reporting distribusi untuk meningkatkan efisiensi operasional dan akurasi proses delivery.",
+
+  demoLink: "LINK_FIGMA",
+
+  detailImages: [projDNT],
+
+  overview:
+    "Sistem Delivery Note Truck dikembangkan menggunakan Django sebagai platform monitoring dan manajemen distribusi logistik berbasis web. Aplikasi ini membantu proses digitalisasi delivery note, monitoring pengiriman truk, serta pengelolaan data distribusi secara terpusat dan real-time. Sistem dirancang untuk mendukung aktivitas operasional dengan volume pengiriman tinggi, mempermudah tracking status delivery, mempercepat proses administrasi, dan meningkatkan akurasi pencatatan logistik.",
+
+  features: [
+    "Delivery Note Management: Membantu proses pembuatan, validasi, edit, finish, dan pencetakan Delivery Note secara digital dan terintegrasi.",
+
+    "Real-Time Truck Monitoring: Menampilkan status pengiriman truk secara langsung seperti Waiting, Sending, Finish, Revision, dan Cancel untuk mempermudah monitoring distribusi.",
+
+    "Truck & Route Management: Mengelola data armada truck, route destination, driver, vendor, dan informasi pengiriman dalam satu dashboard terpusat.",
+
+    "QR & Manual Input Support: Mendukung proses input delivery menggunakan scan QR maupun input manual untuk meningkatkan fleksibilitas operasional.",
+
+    "Automated Print System: Mengintegrasikan proses cetak Delivery Note dengan validasi printer dan dokumen untuk mempercepat administrasi logistik.",
+
+    "Dashboard & Reporting: Menyediakan dashboard monitoring distribusi dan laporan pengiriman harian secara visual dan real-time.",
+
+    "Database Integration: Terintegrasi dengan SQL Server dan PostgreSQL untuk pengelolaan data distribusi dan logistik dengan volume data besar secara stabil.",
+
+    "Operational Efficiency Improvement: Membantu mengurangi proses pencatatan manual dan meningkatkan efisiensi monitoring pengiriman pada aktivitas distribusi harian."
+  ],
+
+  techs: [
+    "Python",
+    "Django",
+    "SQL Server",
+    "PostgreSQL",
+    "JavaScript",
+    "AJAX Polling",
+    "HTML5",
+    "CSS3",
+    "Bootstrap",
+    "jQuery",
+    "REST API",
+    "Git"
+  ]
+},
     {
-      title: "Event Attendance System",
-      category: "Website",
-      year: 2025,
-      img: projAVI,
-      desc: "Website Event Attendance System berbasis QR Code dan check-in manual di PT Astra Visteon Indonesia yang mempermudah proses absensi peserta acara secara cepat, efisien, dan terintegrasi secara digital.",
-      demoLink: "#" 
-    },
+  title: "Event Attendance System",
+  category: "Website",
+  year: 2025,
+  img: projAVI,
+
+  desc: "Event Attendance System merupakan aplikasi absensi acara berbasis web yang dikembangkan di PT Astra Visteon Indonesia untuk mempermudah proses check-in peserta secara cepat, efisien, dan terintegrasi secara digital. Sistem ini mendukung absensi menggunakan QR Code, check-in manual, guest attendance, hingga monitoring kehadiran peserta secara real-time untuk berbagai kegiatan perusahaan.",
+
+  demoLink: "#",
+
+  detailImages: [projAVI],
+
+  overview:
+    "Sistem manajemen absensi acara berbasis web yang dikembangkan menggunakan Laravel untuk mendukung proses registrasi dan check-in event perusahaan secara digital. Aplikasi ini dirancang untuk mempercepat proses absensi karyawan maupun tamu eksternal dengan metode QR Code scanning dan manual check-in dalam satu platform terpusat. Sistem juga menyediakan dashboard admin, monitoring attendance real-time, pengelolaan event aktif, serta reporting otomatis untuk meningkatkan efisiensi operasional acara perusahaan.",
+
+  features: [
+    "QR Code Attendance System: Mendukung proses check-in peserta menggunakan QR Code scanning secara real-time untuk mempercepat validasi kehadiran.",
+
+    "Manual & Guest Check-In: Menyediakan fitur check-in manual dan guest attendance untuk tamu eksternal maupun peserta tanpa QR Code.",
+
+    "Event Management: Memungkinkan admin mengelola event aktif, jadwal acara, daftar peserta, dan status kehadiran dalam satu dashboard terpusat.",
+
+    "Real-Time Attendance Monitoring: Menampilkan data kehadiran peserta secara langsung sehingga mempermudah monitoring jumlah peserta hadir selama acara berlangsung.",
+
+    "Bulk Import Participant Data: Mendukung import massal data peserta dan karyawan menggunakan file Excel untuk mempercepat administrasi event.",
+
+    "Automatic ID Card & QR Generation: Menghasilkan QR Code dan ID Card peserta secara otomatis untuk kebutuhan registrasi acara.",
+
+    "PDF Reporting System: Mengintegrasikan export laporan attendance dan rekap data peserta dalam format PDF secara otomatis.",
+
+    "Responsive User Interface: Menggunakan tampilan modern dan responsif sehingga dapat diakses dengan mudah melalui desktop maupun tablet saat event berlangsung.",
+
+    "Authentication & Admin Access: Dilengkapi sistem login admin untuk pengelolaan data event dan keamanan akses sistem.",
+
+    "Operational Efficiency Improvement: Membantu mengurangi antrean check-in manual dan meningkatkan efisiensi proses registrasi peserta pada acara perusahaan."
+  ],
+
+  techs: [
+    "PHP",
+    "Laravel",
+    "MySQL",
+    "Bootstrap 5",
+    "JavaScript",
+    "AJAX",
+    "jQuery",
+    "SQL Server",
+    "CSS3",
+    "HTML5-QRCode",
+    "DomPDF",
+    "REST API",
+    "Git"
+  ]
+},
     {
-      title: "Production Trainer (MR)",
-      category: "Mixed Reality",
-      year: 2025,
-      img: projMR,
-      desc: "Program pelatihan berbasis Mixed Reality (HoloLens) dan Virtual Reality (Meta Quest 3s) di PT Astra Visteon Indonesia yang membantu operator mempelajari komponen perakitan melalui interaksi 3D waktu-nyata.",
-      demoLink: "#" 
-    },
+  title: "Production Trainer (MR)",
+  category: "Mixed Reality",
+  year: 2025,
+  img: projMR,
+
+  desc: "Production Trainer (MR) merupakan aplikasi pelatihan berbasis Mixed Reality dan Virtual Reality yang dikembangkan di PT Astra Visteon Indonesia untuk membantu proses onboarding dan training operator produksi secara interaktif. Aplikasi ini memanfaatkan perangkat HoloLens dan Meta Quest 3s untuk menghadirkan simulasi komponen, proses assembly, dan pengenalan alat produksi dalam bentuk visual 3D real-time guna meningkatkan efektivitas pembelajaran dan mengurangi risiko kesalahan operasional.",
+
+  demoLink: "#",
+
+  detailImages: [projMR, projmenumr],
+
+  overview:
+    "Aplikasi pelatihan imersif berbasis Unity yang dirancang untuk mendukung proses training dan onboarding karyawan baru di lingkungan manufaktur PT Astra Visteon Indonesia. Sistem ini menghadirkan simulasi interaktif menggunakan teknologi Mixed Reality (MR) dan Virtual Reality (VR) sehingga pengguna dapat mempelajari proses produksi, komponen assembly, serta penggunaan alat kerja melalui visualisasi 3D secara langsung. Dengan pendekatan immersive learning, aplikasi membantu meningkatkan pemahaman operator, mempercepat proses adaptasi kerja, dan mengurangi ketergantungan terhadap pelatihan konvensional.",
+
+  features: [
+    "Mixed Reality & Virtual Reality Training: Mengimplementasikan teknologi HoloLens dan Meta Quest 3s untuk menghadirkan pengalaman pelatihan interaktif berbasis MR dan VR.",
+
+    "Interactive 3D Object Simulation: Mengembangkan dan mengintegrasikan berbagai objek 3D interaktif menggunakan Blender untuk simulasi komponen dan alat produksi.",
+
+    "Real-Time Object Interaction: Mendukung interaksi objek virtual secara langsung seperti rotate, zoom, move, dan object manipulation menggunakan hand tracking dan controller.",
+
+    "Production Assembly Visualization: Menampilkan simulasi proses assembly dan pengenalan part produksi secara visual untuk membantu pemahaman operator baru.",
+
+    "Immersive Learning Experience: Menghadirkan pengalaman belajar berbasis simulasi realistis sehingga pelatihan menjadi lebih menarik, aman, dan mudah dipahami.",
+
+    "Safety & Risk Reduction: Membantu mengurangi risiko kesalahan operasional dan kecelakaan kerja dengan memberikan simulasi training sebelum praktik langsung di area produksi.",
+
+    "Training Efficiency Improvement: Membantu mempercepat proses onboarding dan meningkatkan efektivitas pemahaman materi dibandingkan metode training konvensional.",
+
+    "Cross-Platform XR Deployment: Mendukung deployment aplikasi pada perangkat Mixed Reality dan Virtual Reality untuk kebutuhan pelatihan fleksibel di lingkungan industri.",
+
+    "Optimized 3D Environment: Mengoptimalkan asset 3D dan performa aplikasi agar tetap stabil saat dijalankan pada perangkat XR.",
+
+    "Interactive User Experience: Menggunakan antarmuka dan navigasi interaktif untuk meningkatkan kenyamanan pengguna selama proses pelatihan."
+  ],
+
+  techs: [
+    "Unity",
+    "C#",
+    "Blender",
+    "HoloLens",
+    "Meta Quest 3s",
+    "Mixed Reality Toolkit (MRTK)",
+    "OpenXR",
+    "XR Interaction Toolkit",
+    "Git",
+    "Visual Studio"
+  ]
+},
     {
-      title: "Inventory App - Laravel 12",
-      category: "Website",
-      year: 2025,
-      img: projInven,
-      desc: "Aplikasi sistem inventaris gudang komprehensif yang mempermudah pelacakan stok barang, pengisian form logistik, dan ekspor pelaporan riwayat pergudangan.",
-      demoLink: "https://www.figma.com" 
-    },
+  title: "Inventory App - Laravel 12",
+  category: "Website",
+  year: 2025,
+  img: projInven,
+
+  desc: "Inventory App merupakan aplikasi manajemen inventaris berbasis web yang dikembangkan menggunakan Laravel 12 untuk membantu pengelolaan stok barang, pencatatan pergerakan inventory, dan administrasi pergudangan secara digital. Sistem ini mendukung monitoring stok real-time, pengelolaan barang masuk dan keluar, form logistik dinamis, serta reporting inventory untuk meningkatkan akurasi data dan efisiensi operasional warehouse.",
+
+  detailImages: [projInven, projInven2, projInven3, projInven4],
+
+  overview:
+    "Aplikasi manajemen inventaris berbasis Laravel 12 yang dirancang untuk membantu proses digitalisasi pengelolaan warehouse dan inventory barang. Sistem ini memungkinkan pengguna memantau ketersediaan stok secara real-time, mencatat riwayat transaksi barang masuk dan keluar, serta menghasilkan laporan inventory secara otomatis. Dengan antarmuka yang responsif dan sistem pengelolaan data terintegrasi, aplikasi membantu meningkatkan efisiensi administrasi pergudangan dan meminimalkan kesalahan pencatatan manual.",
+
+  features: [
+    "Real-Time Stock Monitoring: Menampilkan informasi stok barang secara aktual untuk mempermudah pengawasan inventory dan pengambilan keputusan operasional.",
+
+    "Inventory In & Out Management: Mendukung pencatatan barang masuk dan barang keluar secara digital dengan riwayat transaksi yang terstruktur.",
+
+    "Dynamic Logistics Form: Menyediakan form logistik dinamis untuk pengelolaan data inventory dan proses administrasi warehouse.",
+
+    "Warehouse Data Management: Mengelola data barang, kategori inventory, supplier, dan informasi stok dalam satu sistem terpusat.",
+
+    "Search & Filter System: Mempermudah pencarian data inventory menggunakan fitur filter dan pencarian cepat.",
+
+    "Export Reporting Feature: Mendukung export laporan inventory dan riwayat pergudangan dalam format standar untuk kebutuhan audit dan dokumentasi.",
+
+    "Responsive Dashboard Interface: Menggunakan tampilan dashboard modern dan responsif sehingga nyaman digunakan pada berbagai perangkat.",
+
+    "Authentication & User Access: Dilengkapi sistem login dan manajemen hak akses pengguna untuk menjaga keamanan data inventory.",
+
+    "Database Integration: Menggunakan MySQL untuk pengelolaan data inventory secara stabil, cepat, dan terstruktur.",
+
+    "Operational Efficiency Improvement: Membantu mengurangi proses pencatatan manual dan meningkatkan akurasi pengelolaan stok barang."
+  ],
+
+  techs: [
+    "PHP",
+    "Laravel 12",
+    "MySQL",
+    "TailwindCSS",
+    "JavaScript",
+    "HTML5",
+    "CSS3",
+    "Blade",
+    "REST API",
+    "jQuery",
+    "Git"
+  ]
+},
     {
-      title: "AR-AVI",
-      category: "Augmented Reality",
-      year: 2024,
-      img: projAravi,
-      desc: "Aplikasi Augmented Reality interaktif pintar untuk visualisasi modul mesin serta simulasi panduan mekanis digital di area produksi manufaktur.",
-      demoLink: "https://drive.google.com/file/d/1y0g6mI5VBkV0pM1c-E9r90juM2lFfoBw/view?usp=sharing"
-    },
+  title: "AR-AVI",
+  category: "Augmented Reality",
+  year: 2024,
+  img: projAravi,
+
+  desc: "AR-AVI merupakan aplikasi Augmented Reality interaktif yang dikembangkan untuk membantu proses training dan visualisasi komponen mesin di lingkungan manufaktur PT Astra Visteon Indonesia. Aplikasi ini menghadirkan simulasi digital berbasis AR untuk menampilkan objek 3D, panduan mekanis, serta informasi komponen mesin secara real-time guna meningkatkan efektivitas pembelajaran operator dan efisiensi proses training produksi.",
+
+  demoLink: "https://drive.google.com/file/d/1y0g6mI5VBkV0pM1c-E9r90juM2lFfoBw/view?usp=sharing",
+
+  detailImages: [projAravi],
+
+  overview:
+    "AR-AVI adalah aplikasi pelatihan berbasis Augmented Reality yang dikembangkan menggunakan Unity dan Vuforia untuk membantu visualisasi modul mesin serta proses assembly di area produksi manufaktur. Sistem ini memungkinkan pengguna melihat objek 3D secara langsung melalui perangkat mobile dengan pengalaman interaktif dan imersif. Aplikasi dirancang untuk mendukung proses pembelajaran operator, mempercepat pemahaman komponen mesin, dan meminimalkan risiko kesalahan operasional melalui simulasi digital berbasis AR.",
+
+  features: [
+    "Interactive Augmented Reality System: Mengimplementasikan teknologi Augmented Reality untuk menampilkan objek virtual 3D secara real-time di lingkungan nyata.",
+
+    "3D Machine Visualization: Menampilkan visualisasi detail komponen mesin dan modul produksi dalam bentuk objek 3D interaktif.",
+
+    "Marker-Based Tracking: Menggunakan Vuforia marker tracking untuk mendeteksi dan memunculkan model AR dengan akurasi stabil.",
+
+    "Digital Mechanical Guidance: Menyediakan panduan mekanis digital dan simulasi langkah kerja untuk membantu operator memahami proses assembly dan penggunaan mesin.",
+
+    "Interactive Object Manipulation: Mendukung interaksi objek seperti rotate, zoom, dan object inspection untuk meningkatkan pengalaman pembelajaran.",
+
+    "Immersive Training Experience: Menghadirkan metode pelatihan interaktif yang lebih menarik dan mudah dipahami dibandingkan media konvensional.",
+
+    "Safety & Risk Reduction: Membantu proses pembelajaran teknis tanpa harus berinteraksi langsung dengan mesin produksi berisiko tinggi.",
+
+    "Mobile-Based AR Application: Dirancang agar dapat dijalankan melalui perangkat mobile sehingga fleksibel digunakan di area training maupun produksi.",
+
+    "Optimized 3D Asset Integration: Mengintegrasikan asset 3D hasil modeling Blender dengan optimasi performa agar aplikasi tetap ringan dan responsif.",
+
+    "Operational Training Support: Membantu meningkatkan efektivitas training operator baru dan mempercepat proses adaptasi kerja di lingkungan manufaktur."
+  ],
+
+  techs: [
+    "Unity 3D",
+    "Vuforia",
+    "C#",
+    "Blender",
+    "Android Studio",
+    "Visual Studio",
+    "AR Foundation",
+    "Git"
+  ]
+},
     {
-      title: "Game Relic Shaman",
-      category: "Game 2D",
-      year: 2024,
-      img: projRelic,
-      desc: "Game petualangan platformer 2D bergenre Metroidvania menceritakan perjalanan Joko mengumpulkan benda pusaka dengan keris sakti yang dibimbing oleh Mbah Mijan.",
-      demoLink: "https://itch.io/jam/infinite-learning-game-batch-6/rate/2707334"
-    },
+  title: "Game Relic Shaman",
+  category: "Game 2D",
+  year: 2024,
+  img: projRelic,
+
+  desc: "Relic Shaman merupakan game petualangan platformer 2D bergenre Metroidvania yang dikembangkan menggunakan Unity. Game ini menceritakan perjalanan karakter Joko, seorang shaman yang dibimbing oleh Mbah Mijan untuk mengumpulkan benda-benda pusaka menggunakan keris sakti sambil menghadapi berbagai rintangan, musuh, dan area misterius dalam dunia eksplorasi yang saling terhubung.",
+
+  demoLink: "https://itch.io/jam/infinite-learning-game-batch-6/rate/2707334",
+
+  detailImages: [projRelic],
+
+  overview:
+    "Relic Shaman adalah proyek pengembangan game 2D bergenre Metroidvania yang berfokus pada eksplorasi dunia, combat system, dan progression gameplay. Dikembangkan menggunakan Unity 2D, game ini menghadirkan pengalaman platformer dengan visual pixel art, sistem pertarungan menggunakan keris sakti, serta eksplorasi area yang membuka jalur dan kemampuan baru seiring perkembangan permainan. Proyek ini juga mengimplementasikan desain level, animasi karakter, enemy AI, dan inventory system untuk menciptakan gameplay yang interaktif dan menantang.",
+
+  features: [
+    "Metroidvania Exploration System: Menghadirkan eksplorasi map yang saling terhubung dengan berbagai area tersembunyi, puzzle, dan jalur baru yang dapat dibuka.",
+
+    "2D Platformer Gameplay: Mengimplementasikan mekanika platformer seperti jumping, obstacle navigation, dan movement system yang responsif.",
+
+    "Combat System: Menggunakan keris sakti sebagai senjata utama untuk melawan musuh dan menghadapi berbagai tantangan dalam permainan.",
+
+    "Inventory & Relic Collection: Mendukung sistem pengumpulan item pusaka dan inventory untuk membantu progression gameplay dan membuka kemampuan tertentu.",
+
+    "Pixel Art Character & Environment: Menggunakan desain visual pixel art dan sprite animation untuk menciptakan suasana game yang unik dan menarik.",
+
+    "Enemy AI & Battle Interaction: Mengembangkan perilaku musuh dan interaksi combat untuk meningkatkan tantangan permainan.",
+
+    "Level Design & World Building: Merancang level dengan konsep eksplorasi non-linear khas Metroidvania yang mendorong pemain menjelajahi berbagai area.",
+
+    "Animation System: Mengimplementasikan animasi karakter, attack effect, dan movement animation untuk meningkatkan pengalaman bermain.",
+
+    "Interactive User Interface: Menyediakan tampilan UI gameplay seperti health system, inventory, dan item notification.",
+
+    "Game Development Workflow: Menggunakan Unity untuk pengembangan gameplay, scripting, dan integrasi asset 2D secara terstruktur."
+  ],
+
+  techs: [
+  "Unity 2D",
+  "C#",
+  "Visual Studio",
+  "Tilemap System",
+  "Animator",
+  "Physics 2D",
+  "Input System",
+  "Scriptable Object",
+  "Aseprite",
+  "Git"
+]
+},
     {
-      title: "AR-Flos",
-      category: "Augmented Reality",
-      year: 2023,
-      img: projArflos,
-      desc: "Media pembelajaran botani interaktif berbasis Augmented Reality yang memproyeksikan anatomi organ dan susunan struktur bunga secara 3D.",
-      demoLink: "https://www.figma.com"
-    },
-    {
-      title: "SiKeris",
-      category: "Mobile App",
-      year: 2020,
-      img: projSikeris,
-      desc: "Aplikasi pemenang Top Contributor MAME 2020 dari Kemendikbud yang memanfaatkan visualisasi Augmented Reality guna memperkenalkan peninggalan kerajaan Islam.",
-      demoLink: "https://drive.google.com/file/d/1Zst-FgF_fmIGcTscqIoB0TUbT68U3L6h/view?usp=sharing"
-    },
-    {
-      title: "Stray Kids Fanbase App",
-      category: "Website",
-      year: 2023,
-      img: projStray,
-      desc: "Situs portal komunitas dinamis yang dikembangkan menggunakan fondasi framework Laravel 10 dan desain Bootstrap responsif.",
-      demoLink: "https://kelompok11.himfahmi.com/"
-    },
-    {
-      title: "Java Island Culture",
-      category: "Augmented Reality",
-      year: 2019,
-      img: projJSC,
-      desc: "Aplikasi mobile Augmented Reality interaktif edukasi kebudayaan Jawa yang memenangkan penghargaan nasional Top Contributor di ajang MAME 2019.",
-      demoLink: "https://drive.google.com/drive/folders/1Z_wF0PPAnDc_cGtcmssgTOclFD5s2DGu?usp=drive_link"
-    },
-    {
-      title: "Redesain Tomorrow's Affairs",
-      category: "UI/UX Design",
-      year: 2023,
-      img: projTA,
-      desc: "Studi kasus perancangan ulang tata letak antarmuka aplikasi Tomorrow's Affairs menggunakan Figma guna mengoptimalkan alur interaksi dan kenyamanan pengguna.",
-      demoLink: "https://www.figma.com"
-    },
-    {
-      title: "Website TicketTuneIn",
-      category: "UI/UX Design",
-      year: 2023,
-      img: projTTI,
-      desc: "Pembuatan konsep desain purwarupa aplikasi pemesanan tiket hiburan online serta halaman penggalangan donasi berbasis web di Figma.",
-      demoLink: "https://www.figma.com"
-    }
-  ];
+  title: "AR-Flos",
+  category: "Augmented Reality",
+  year: 2024,
+  img: projArflos,
+
+  desc: "AR-Flos merupakan media pembelajaran interaktif berbasis Augmented Reality yang dikembangkan untuk membantu proses pembelajaran botani melalui visualisasi struktur bunga dalam bentuk 3D. Aplikasi ini memungkinkan pengguna melihat anatomi organ bunga secara real-time menggunakan teknologi AR sehingga materi pembelajaran menjadi lebih menarik, interaktif, dan mudah dipahami.",
+
+  demoLink: "https://www.figma.com",
+
+  detailImages: [projArflos],
+
+  overview:
+    "AR-Flos adalah aplikasi edukasi berbasis Augmented Reality yang dikembangkan menggunakan Unity dan Vuforia untuk mendukung pembelajaran botani secara interaktif. Sistem ini memvisualisasikan bagian-bagian bunga seperti putik, benang sari, mahkota, dan kelopak dalam bentuk model 3D yang dapat ditampilkan langsung melalui perangkat mobile. Dengan pendekatan visual dan interaktif, aplikasi membantu meningkatkan pemahaman siswa terhadap struktur anatomi bunga dibandingkan metode pembelajaran konvensional berbasis gambar 2D.",
+
+  features: [
+    "Augmented Reality Learning System: Mengimplementasikan teknologi AR untuk menghadirkan pengalaman pembelajaran interaktif berbasis visual 3D.",
+
+    "3D Flower Anatomy Visualization: Menampilkan struktur detail organ bunga seperti putik, benang sari, mahkota, dan kelopak secara real-time.",
+
+    "Marker-Based Tracking: Menggunakan Vuforia marker tracking untuk mendeteksi gambar marker dan menampilkan objek 3D dengan stabil.",
+
+    "Interactive Object Manipulation: Mendukung interaksi objek seperti rotate, zoom, dan object inspection untuk mempermudah proses pembelajaran.",
+
+    "Educational Visualization: Membantu siswa memahami anatomi bunga secara lebih jelas dibandingkan ilustrasi buku teks konvensional.",
+
+    "Immersive Learning Experience: Menghadirkan metode pembelajaran yang lebih menarik, interaktif, dan mudah dipahami.",
+
+    "Mobile-Based AR Application: Dirancang agar dapat dijalankan melalui perangkat mobile sehingga mudah digunakan di lingkungan sekolah.",
+
+    "Optimized 3D Asset Integration: Mengintegrasikan model 3D dengan optimasi performa agar aplikasi tetap ringan dan responsif.",
+
+    "Interactive User Interface: Menggunakan tampilan antarmuka sederhana dan mudah digunakan untuk mendukung proses belajar siswa.",
+
+    "Digital Education Support: Mendukung transformasi media pembelajaran digital berbasis teknologi Augmented Reality."
+  ],
+
+  techs: [
+    "Unity 3D",
+    "C#",
+    "Vuforia",
+    "AR Foundation",
+    "Marker-Based Tracking",
+    "3D Modeling",
+    "Blender",
+    "Android Studio",
+    "Visual Studio",
+    "Git"
+  ]
+},
+    
+  {
+  title: "SiKeris",
+  category: "Mobile App",
+  year: 2020,
+  img: projSikeris,
+
+  desc: "SiKeris merupakan aplikasi edukasi berbasis Augmented Reality yang dikembangkan untuk memperkenalkan peninggalan kerajaan Islam di Indonesia melalui visualisasi objek 3D interaktif. Aplikasi ini berhasil meraih penghargaan Top Contributor pada ajang Mobile Application for Education (MAME) 2020 yang diselenggarakan oleh Kemendikbud.",
+
+  demoLink: "https://drive.google.com/file/d/1Zst-FgF_fmIGcTscqIoB0TUbT68U3L6h/view?usp=sharing",
+
+  detailImages: [projSikeris],
+
+  overview:
+    "SiKeris adalah aplikasi mobile edukasi berbasis Augmented Reality yang dirancang untuk membantu proses pembelajaran sejarah kerajaan Islam di Indonesia secara lebih interaktif dan menarik. Aplikasi ini memvisualisasikan berbagai artefak bersejarah seperti keris dan benda pusaka dalam bentuk model 3D yang dapat ditampilkan langsung melalui perangkat mobile menggunakan teknologi AR. Dengan pendekatan immersive learning, aplikasi membantu meningkatkan minat belajar sejarah melalui pengalaman visual digital.",
+
+  features: [
+    "Augmented Reality Education System: Mengimplementasikan teknologi AR untuk menghadirkan media pembelajaran sejarah berbasis visual interaktif.",
+
+    "3D Historical Artifact Visualization: Menampilkan artefak kerajaan Islam seperti keris dan benda pusaka dalam bentuk model 3D real-time.",
+
+    "Marker-Based Tracking: Menggunakan Vuforia marker tracking untuk memunculkan objek AR dengan stabil dan responsif.",
+
+    "Interactive Learning Experience: Menghadirkan pengalaman belajar sejarah yang lebih menarik dibandingkan media konvensional.",
+
+    "Object Interaction Feature: Mendukung interaksi objek seperti rotate, zoom, dan object inspection untuk meningkatkan pemahaman pengguna.",
+
+    "Mobile-Based Application: Dirancang untuk perangkat mobile Android agar mudah diakses oleh siswa dan pengguna umum.",
+
+    "Educational Content Integration: Menyediakan informasi sejarah kerajaan Islam secara digital dan terstruktur.",
+
+    "National Award Achievement: Berhasil meraih penghargaan Top Contributor pada kompetisi nasional MAME 2020 oleh Kemendikbud.",
+
+    "Optimized 3D Asset Integration: Mengintegrasikan asset 3D dengan optimasi performa agar aplikasi tetap ringan dan stabil.",
+
+    "Digital Cultural Preservation: Mendukung pelestarian budaya dan sejarah Indonesia melalui teknologi digital interaktif."
+  ],
+
+  techs: [
+    "Unity",
+    "C#",
+    "Vuforia",
+    "AR Foundation",
+    "Marker-Based Tracking",
+    "Android SDK",
+    "Blender",
+    "Visual Studio",
+    "Git"
+  ]
+},
+{
+  title: "Stray Kids Fanbase App",
+  category: "Website",
+  year: 2023,
+  img: projStray,
+
+  desc: "Stray Kids Fanbase App merupakan website komunitas fanbase berbasis Laravel yang dikembangkan sebagai pusat informasi, interaksi, dan media komunikasi penggemar Stray Kids secara online dengan tampilan modern dan responsif.",
+
+  demoLink: "https://kelompok11.himfahmi.com/",
+
+  detailImages: [projStray],
+
+  overview:
+    "Website komunitas fanbase berbasis Laravel 10 yang dirancang untuk menyediakan platform interaksi penggemar secara digital. Sistem ini mendukung pengelolaan informasi grup, update jadwal, registrasi member, serta penyajian konten komunitas dalam satu portal terpusat. Dengan desain responsif dan arsitektur backend Laravel, aplikasi mampu memberikan pengalaman pengguna yang nyaman di berbagai perangkat.",
+
+  features: [
+    "Community Portal System: Menyediakan pusat informasi dan media interaksi bagi komunitas penggemar.",
+
+    "Responsive Web Design: Menggunakan Bootstrap untuk menghasilkan tampilan modern dan responsif di desktop maupun mobile.",
+
+    "User Authentication System: Mendukung registrasi dan login pengguna untuk pengelolaan akun member komunitas.",
+
+    "Content Management: Mengelola postingan, informasi event, dan update komunitas secara terstruktur.",
+
+    "Interactive User Interface: Menghadirkan tampilan antarmuka modern dengan navigasi yang mudah digunakan.",
+
+    "Laravel MVC Architecture: Mengimplementasikan konsep MVC Laravel untuk pengelolaan backend yang lebih terstruktur dan scalable.",
+
+    "Database Management: Menggunakan MySQL untuk penyimpanan data pengguna dan konten website secara stabil.",
+
+    "Search & Navigation Feature: Mempermudah pengguna mencari informasi dan konten komunitas.",
+
+    "Cross-Device Compatibility: Dioptimalkan untuk berbagai ukuran layar dan perangkat.",
+
+    "Community Digital Engagement: Membantu meningkatkan interaksi dan aktivitas komunitas fanbase secara online."
+  ],
+
+  techs: [
+    "PHP",
+    "Laravel 10",
+    "MySQL",
+    "Bootstrap",
+    "JavaScript",
+    "HTML5",
+    "CSS3",
+    "Blade",
+    "jQuery",
+    "Git"
+  ]
+},
+{
+  title: "Java Island Culture",
+  category: "Augmented Reality",
+  year: 2019,
+  img: projJSC,
+
+  desc: "Java Island Culture merupakan aplikasi edukasi budaya berbasis Augmented Reality yang dikembangkan untuk memperkenalkan budaya dan rumah adat Pulau Jawa melalui visualisasi objek 3D interaktif. Aplikasi ini berhasil meraih penghargaan Top Contributor pada ajang MAME 2019 oleh Kemendikbud.",
+
+  demoLink: "https://drive.google.com/drive/folders/1Z_wF0PPAnDc_cGtcmssgTOclFD5s2DGu?usp=drive_link",
+
+  detailImages: [projJSC],
+
+  overview:
+    "Java Island Culture adalah aplikasi mobile edukasi berbasis Augmented Reality yang dirancang untuk membantu pelestarian budaya Indonesia melalui teknologi digital interaktif. Aplikasi ini menampilkan berbagai rumah adat, pakaian tradisional, dan elemen budaya khas Pulau Jawa dalam bentuk model 3D yang dapat divisualisasikan secara langsung menggunakan perangkat mobile. Dengan pendekatan immersive learning, aplikasi membantu meningkatkan minat generasi muda terhadap budaya nusantara.",
+
+  features: [
+    "Augmented Reality Cultural Learning: Mengimplementasikan teknologi AR sebagai media edukasi budaya interaktif.",
+
+    "3D Cultural Object Visualization: Menampilkan rumah adat, pakaian tradisional, dan elemen budaya Jawa dalam bentuk model 3D.",
+
+    "Marker-Based Tracking: Menggunakan Vuforia marker tracking untuk memunculkan objek budaya secara real-time.",
+
+    "Interactive Object Manipulation: Mendukung rotate, zoom, dan object inspection untuk meningkatkan pengalaman belajar.",
+
+    "Immersive Educational Experience: Menghadirkan metode pembelajaran budaya yang lebih menarik dan mudah dipahami.",
+
+    "Mobile-Based AR Application: Dapat dijalankan pada perangkat Android untuk mendukung aksesibilitas pembelajaran.",
+
+    "Digital Cultural Preservation: Membantu pelestarian budaya Indonesia melalui media digital interaktif.",
+
+    "National Award Achievement: Mendapat penghargaan Top Contributor pada kompetisi nasional MAME 2019.",
+
+    "Optimized 3D Asset Integration: Mengintegrasikan asset 3D dengan optimasi performa aplikasi mobile.",
+
+    "Interactive User Interface: Menggunakan tampilan sederhana dan mudah digunakan oleh pelajar."
+  ],
+
+  techs: [
+    "Unity",
+    "C#",
+    "Vuforia",
+    "AR Foundation",
+    "Marker-Based Tracking",
+    "Android SDK",
+    "Blender",
+    "Visual Studio",
+    "Git"
+  ]
+},
+{
+  title: "Redesain Tomorrow's Affairs",
+  category: "UI/UX Design",
+  year: 2023,
+  img: projTA,
+
+  desc: "Proyek redesign UI/UX aplikasi Tomorrow's Affairs yang berfokus pada peningkatan user experience, perbaikan visual interface, dan optimalisasi alur interaksi pengguna menggunakan Figma.",
+
+  demoLink: "https://www.figma.com/design/Xo3s0ajib2MwWEpVqg1a8t/IMK-AMANDA-SEPTI-WULANDARI---3IA12?node-id=37-7116&t=kdGmGOGO9Lp2OH5H-1",
+
+  detailImages: [projTA],
+
+  overview:
+    "Case study UI/UX Design yang berfokus pada proses redesign antarmuka aplikasi Tomorrow's Affairs untuk meningkatkan usability, visual consistency, dan kenyamanan pengguna. Proyek ini mencakup user research, wireframing, redesign interface, hingga pembuatan high-fidelity prototype menggunakan Figma dengan pendekatan user-centered design.",
+
+  features: [
+    "User Interface Redesign: Mendesain ulang tampilan aplikasi agar lebih modern, bersih, dan user-friendly.",
+
+    "User Experience Improvement: Mengoptimalkan user flow dan navigasi agar interaksi pengguna menjadi lebih efisien.",
+
+    "Wireframing & Layouting: Membuat wireframe dan struktur layout untuk meningkatkan hierarki informasi.",
+
+    "High-Fidelity Prototype: Mengembangkan prototype interaktif menggunakan Figma untuk simulasi pengalaman pengguna.",
+
+    "Responsive Design Concept: Mendesain tampilan yang adaptif untuk berbagai ukuran perangkat.",
+
+    "Visual Consistency Enhancement: Memperbaiki typography, spacing, color palette, dan komponen visual lainnya.",
+
+    "Interactive Prototype Navigation: Menyediakan simulasi navigasi aplikasi secara interaktif.",
+
+    "User-Centered Design Approach: Menggunakan pendekatan desain yang berfokus pada kebutuhan dan kenyamanan pengguna.",
+
+    "Modern UI Design System: Mengimplementasikan konsep desain modern dan minimalis.",
+
+    "Design Documentation: Menyusun dokumentasi desain dan komponen UI untuk pengembangan lanjutan."
+  ],
+
+  techs: [
+    "Figma",
+    "UI/UX Design",
+    "Wireframing",
+    "Prototyping",
+    "User Flow",
+    "Design System",
+    "Responsive Design",
+    "User Research"
+  ]
+},
+{
+  title: "Website TicketTuneIn",
+  category: "UI/UX Design",
+  year: 2023,
+  img: projTTI,
+
+  desc: "TicketTuneIn merupakan proyek desain UI/UX platform e-ticketing dan donasi online yang dirancang menggunakan Figma dengan fokus pada kemudahan navigasi, modern interface, dan pengalaman pengguna yang intuitif.",
+
+  demoLink: "https://www.figma.com/proto/rtXUCVamiq3lfVkXN6KMLW/web-donasi?type=design&node-id=2-42&t=2zjadrZR49UMqlpU-1&scaling=min-zoom&page-id=0%3A1&starting-point-node-id=2%3A42",
+
+  detailImages: [projTTI],
+
+  overview:
+    "Proyek desain antarmuka dan prototype aplikasi e-ticketing berbasis web yang dirancang untuk mempermudah proses pemesanan tiket acara hiburan secara online. Sistem juga dilengkapi konsep halaman donasi komunitas untuk mendukung campaign sosial digital. Fokus utama proyek ini adalah menciptakan user flow yang sederhana, visual modern, dan pengalaman pengguna yang nyaman.",
+
+  features: [
+    "E-Ticketing User Flow: Mendesain alur pemesanan tiket dari pencarian event hingga proses checkout.",
+
+    "Interactive UI Prototype: Mengembangkan prototype interaktif menggunakan Figma untuk simulasi penggunaan aplikasi.",
+
+    "Donation Page Design: Mendesain halaman donasi digital dengan tampilan yang intuitif dan mudah digunakan.",
+
+    "Modern User Interface: Menggunakan konsep clean UI dengan desain modern dan minimalis.",
+
+    "Responsive Layout Design: Mendesain tampilan yang optimal untuk desktop dan mobile.",
+
+    "User-Centered Experience: Mengutamakan kenyamanan dan kemudahan pengguna dalam proses navigasi.",
+
+    "Visual Hierarchy Optimization: Menata struktur informasi dan komponen visual agar lebih mudah dipahami.",
+
+    "Design Consistency: Menjaga konsistensi typography, spacing, dan komponen antarmuka.",
+
+    "Interactive Navigation Simulation: Menyediakan simulasi perpindahan halaman dan interaksi pengguna.",
+
+    "Digital Event Platform Concept: Mengembangkan konsep platform digital untuk kebutuhan event dan komunitas."
+  ],
+
+  techs: [
+    "Figma",
+    "UI/UX Design",
+    "Wireframing",
+    "Interactive Prototyping",
+    "User Flow",
+    "Design System",
+    "Responsive Design",
+    "User Research"
+  ]
+},
+
+    ];
 
   // --- DATABASE SERTIFIKAT ---
   const certificationsData = [
@@ -478,9 +1142,6 @@ export default function App() {
       {/* 2. TAB MENU: DASHBOARD (HERO + ID CARD) */}
       {tab === 'dashboard' && (
         <section className="hero-section">
-          <div className="featured-pill">
-            <span>Featured Project</span> {c.featProj}
-          </div>
           <h1 className="hero-title">
             {c.heroTitle} <br/> <span>{c.heroHighlight}</span>
           </h1>
@@ -517,6 +1178,59 @@ export default function App() {
               <img src={fotoId} alt="Amanda Portrait" className="id-portrait" />
             </div>
           </div>
+
+          <div className="featured-showcase-container">
+
+            <div className="showcase-header">
+              <p>
+                <strong>
+                  {lang === 'id'
+                    ? 'Sistem yang sedang dalam tahap pengembangan:'
+                    : 'System I am currently developing:'}
+                </strong>
+              </p>
+            </div>
+            
+            {/* Gambar Besar Dashboard HCU */}
+            <div className="fp-image-wrapper">
+              {/* Catatan: Gigi menggunakan gambar projInven sementara, kamu bisa ganti dengan gambar HCU aslimu nanti */}
+              <img src={projHCU} alt="Dashboard HCU Preview" />
+            </div>
+
+            {/* Konten 2 Kolom di Bawah Gambar */}
+            <div className="fp-content-grid">
+              
+              <div className="fp-left-col">
+                <h2>{lang === 'id' ? 'Dashboard HCU: Sistem Pemantauan Internal' : 'HCU Dashboard: Internal Monitoring System'}</h2>
+              </div>
+
+              <div className="fp-right-col">
+                <div className="fp-author-info">
+                  <img src={fotoId} alt="Amanda" className="fp-author-img" />
+                  <span className="fp-author-name">Amanda Septi Wulandari</span>
+                </div>
+                
+                <p className="fp-desc">
+                  {lang === 'id' 
+                    ? 'Aplikasi full-stack yang mengintegrasikan berbagai sistem manajemen internal ke dalam satu pusat kendali. Dilengkapi dengan antarmuka yang ramah pengguna untuk pengelolaan data secara real-time, memastikan akuntabilitas dan efisiensi operasional.' 
+                    : 'A full-stack application integrating multiple internal management systems into a central hub. It features a user-friendly interface for real-time data processing, ensuring accountability and operational efficiency.'}
+                </p>
+
+                {/* Tech Stack Pills ala Referensi */}
+                <div className="fp-tech-tags">
+                  <span className="fp-tag"><i>🐍</i> Python</span>
+                  <span className="fp-tag"><i>🎸</i> Django</span>
+                  <span className="fp-tag"><i>🐘</i> PostgreSQL</span>
+                  <span className="fp-tag"><i>🎨</i> Bootstrap</span>
+                </div>
+
+                <button className="fp-read-btn" onClick={() => setTab('project')}>
+                  {lang === 'id' ? 'Lihat studi kasus ↗' : 'Read case study ↗'}
+                </button>
+              </div>
+
+            </div>
+          </div>
         </section>
       )}
 
@@ -537,17 +1251,83 @@ export default function App() {
           </aside>
 
           <section className="right-content">
+            {/* 1. INTRO */}
             <div id="intro" className="content-section">
               <h1 className="profile-hero-title">Amanda Septi Wulandari</h1>
               <div className="profile-hero-role">{c.role}</div>
               <div className="social-links">
-                <a href="https://github.com/amandasepti" target="_blank" rel="noreferrer">🐙 GitHub</a>
+                <a href="https://github.com/amandaseptiw" target="_blank" rel="noreferrer">🐙 GitHub</a>
                 <a href="https://www.linkedin.com/in/amandasepti" target="_blank" rel="noreferrer">🔗 LinkedIn</a>
-                <a href="mailto:amandasepti64@gmail.com">✉️ Email</a>
+                <a href="https://mail.google.com/mail/?view=cm&fs=1&to=amandasepti64@gmail.com" target="_blank" rel="noopener noreferrer">✉️ Email</a>
               </div>
-              <p className="bio-text">{profile.bio}</p>
+              <div className="bio-text">
+                {profile.bio.map((paragraph, index) => (
+                  <p key={index} style={{ marginBottom: '15px' }}>
+                    {paragraph}
+                  </p>
+                ))}
+              </div>
             </div>
 
+            {/* 2. SELECTED WINS */}
+            <div id="wins" className="content-section">
+              <h2 className="section-title">{profile.winsTitle}</h2>
+              <div className="wins-grid">
+                {profile.wins.map((win, idx) => (
+                  <div key={idx} className="win-card">
+                    <div className="icon">{win.icon}</div>
+                    <div><h4>{win.title}</h4><p>{win.desc}</p></div>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* 3. WORK EXPERIENCE (DENGAN SLIDER GAMBAR) */}
+            <div id="experience" className="content-section">
+              <h2 className="section-title">{profile.expTitle}</h2>
+              {profile.exp.map((job, idx) => (
+                <div key={idx} className="timeline-item">
+                  <div className="timeline-header">
+                    <h3>{job.company}</h3><span>{job.date}</span>
+                  </div>
+                  <div className="timeline-role">{job.role}</div>
+                  
+                  {/* Cetak Daftar (Bullet Points) dari CV */}
+                  <ul className="timeline-desc-list">
+                    {job.descList.map((item, i) => (
+                      <li key={i}>{item}</li>
+                    ))}
+                  </ul>
+
+                  {/* Cetak Slider Gambar */}
+                  {job.images && <ImageSlider images={job.images} />}
+                  
+                </div>
+              ))}
+            </div>
+
+            {/* 4. EDUCATION (Pendidikan) */}
+            <div id="education" className="content-section">
+              <h2 className="section-title">{profile.eduTitle}</h2>
+              {profile.edu.map((school, idx) => (
+                <div key={idx} className="timeline-item">
+                  <div className="timeline-header">
+                    <h3>{school.company}</h3><span>{school.date}</span>
+                  </div>
+                  <div className="timeline-role">{school.role}</div>
+                  
+                  {/* Cetak Daftar (Bullet Points) Pendidikan */}
+                  <ul className="timeline-desc-list">
+                    {school.descList.map((item, i) => (
+                      <li key={i}>{item}</li>
+                    ))}
+                  </ul>
+                  
+                </div>
+              ))}
+            </div>
+
+            {/* 5. TECHNICAL SKILLS */}
             <div id="skills" className="content-section">
               <h2 className="section-title">{profile.skillsTitle}</h2>
               {skillsData.map((category, idx) => (
@@ -564,44 +1344,6 @@ export default function App() {
                 </div>
               ))}
             </div>
-
-            <div id="wins" className="content-section">
-              <h2 className="section-title">{profile.winsTitle}</h2>
-              <div className="wins-grid">
-                {profile.wins.map((win, idx) => (
-                  <div key={idx} className="win-card">
-                    <div className="icon">{win.icon}</div>
-                    <div><h4>{win.title}</h4><p>{win.desc}</p></div>
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            <div id="experience" className="content-section">
-              <h2 className="section-title">{profile.expTitle}</h2>
-              {profile.exp.map((job, idx) => (
-                <div key={idx} className="timeline-item">
-                  <div className="timeline-header">
-                    <h3>{job.company}</h3><span>{job.date}</span>
-                  </div>
-                  <div className="timeline-role">{job.role}</div>
-                  <div className="timeline-desc">{job.desc}</div>
-                </div>
-              ))}
-            </div>
-
-            <div id="education" className="content-section">
-              <h2 className="section-title">{profile.eduTitle}</h2>
-              {profile.edu.map((school, idx) => (
-                <div key={idx} className="timeline-item">
-                  <div className="timeline-header">
-                    <h3>{school.company}</h3><span>{school.date}</span>
-                  </div>
-                  <div className="timeline-role">{school.role}</div>
-                  <div className="timeline-desc">{school.desc}</div>
-                </div>
-              ))}
-            </div>
           </section>
         </main>
       )}
@@ -609,52 +1351,121 @@ export default function App() {
       {/* 4. TAB MENU: PORTOFOLIO / PROJECT */}
       {tab === 'project' && (
         <main className="project-container">
-          <div className="project-header">
-            <h1>{lang === 'id' ? 'Portofolio Karya' : 'My Portfolio Works'}</h1>
-            <p>{lang === 'id' ? 'Proyek Kreatif dan Pengembangan Sistem' : 'Creative Projects & System Engineering'}</p>
-          </div>
+          
+          {/* TAMPILAN 1: DAFTAR PROYEK (GRID) */}
+          {!activeProject && (
+            <>
+              <div className="project-header">
+                <h1>{lang === 'id' ? 'Portofolio Karya' : 'My Portfolio Works'}</h1>
+                <p>{lang === 'id' ? 'Proyek Kreatif dan Pengembangan Sistem' : 'Creative Projects & System Engineering'}</p>
+              </div>
 
-          {/* FILTER KATEGORI (TOMBOL PILL) */}
-          <div className="project-filters" style={{ marginBottom: '20px' }}>
-            {projectCategories.map(cat => (
-              <button
-                key={cat}
-                className={projectCategory === cat ? 'active' : ''}
-                onClick={() => setProjectCategory(cat)}
-              >
-                {cat === 'All' && lang === 'id' ? 'Semua Kategori' : cat}
+              <div className="project-filters" style={{ marginBottom: '20px' }}>
+                {projectCategories.map(cat => (
+                  <button key={cat} className={projectCategory === cat ? 'active' : ''} onClick={() => setProjectCategory(cat)}>
+                    {cat === 'All' && lang === 'id' ? 'Semua Kategori' : cat}
+                  </button>
+                ))}
+              </div>
+
+              <div className="cert-controls">
+                <select className="cert-sort-select" value={projectSort} onChange={(e) => setProjectSort(e.target.value)}>
+                  <option value="newest">{lang === 'id' ? 'Urutkan: Terbaru' : 'Sort by: Newest - Oldest'}</option>
+                  <option value="oldest">{lang === 'id' ? 'Urutkan: Terlama' : 'Sort by: Oldest - Newest'}</option>
+                </select>
+              </div>
+
+              <div className="project-grid">
+                {filteredAndSortedProjects.map((proj, index) => (
+                  <div key={index} className="project-card">
+                    <div className="project-img-wrapper" onClick={() => setSelectedImage(proj.img)} title="Klik untuk memperbesar gambar">
+                      <img src={proj.img} alt={proj.title} />
+                    </div>
+                    <div className="project-content">
+                      <span className="project-category">{proj.category}</span>
+                      <h3 className="project-title">{proj.title}</h3>
+                      <div className="project-year"><i>📅</i> {lang === 'id' ? '' : ''} {proj.year}</div>
+                      <p className="project-desc">{proj.desc}</p>
+                      <div className="project-links">
+                        
+                        {/* --- TOMBOL INI SEKARANG MEMBUKA HALAMAN DETAIL --- */}
+                        <button className="project-btn" onClick={() => setActiveProject(proj)}>
+                          {lang === 'id' ? 'Lihat Studi Kasus ↗' : 'View Case Study ↗'}
+                        </button>
+                        
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </>
+          )}
+
+          {/* TAMPILAN 2: HALAMAN DETAIL PROYEK (CASE STUDY) */}
+          {activeProject && (
+            <div className="project-detail-container">
+              
+              <button className="btn-back" onClick={() => setActiveProject(null)}>
+                ← {lang === 'id' ? 'Kembali ke Daftar Proyek' : 'Back to Projects'}
               </button>
-            ))}
-          </div>
 
-          {/* FILTER PENGURUTAN (DROPDOWN) */}
-          <div className="cert-controls">
-            <select className="cert-sort-select" value={projectSort} onChange={(e) => setProjectSort(e.target.value)}>
-              <option value="newest">{lang === 'id' ? 'Urutkan: Tahun Terbaru - Terlama' : 'Sort by: Newest - Oldest'}</option>
-              <option value="oldest">{lang === 'id' ? 'Urutkan: Tahun Terlama - Terbaru' : 'Sort by: Oldest - Newest'}</option>
-            </select>
-          </div>
-
-          <div className="project-grid">
-            {filteredAndSortedProjects.map((proj, index) => (
-              <div key={index} className="project-card">
-                <div className="project-img-wrapper" onClick={() => setSelectedImage(proj.img)} title="Klik untuk memperbesar gambar">
-                  <img src={proj.img} alt={proj.title} />
-                </div>
-                <div className="project-content">
-                  <span className="project-category">{proj.category}</span>
-                  <h3 className="project-title">{proj.title}</h3>
-                  <div className="project-year"><i>📅</i> {lang === 'id' ? 'Tahun Pembuatan:' : 'Year Built:'} {proj.year}</div>
-                  <p className="project-desc">{proj.desc}</p>
-                  <div className="project-links">
-                    <a href={proj.demoLink} target="_blank" rel="noreferrer" className="project-btn">
-                      {lang === 'id' ? 'Lihat Demo / Program ↗' : 'View Demo / App ↗'}
-                    </a>
+              <div className="pd-header">
+                <h1 className="pd-title">{activeProject.title}</h1>
+                <div className="pd-meta">
+                  <span><i>📅</i> {activeProject.year}</span>
+                  <div className="pd-author">
+                    <img src={fotoId} alt="Amanda" />
+                    <span>Amanda Septi Wulandari</span>
                   </div>
                 </div>
+                
+                {/* Tech Tags */}
+                {activeProject.techs && (
+                  <div className="pd-tags">
+                    {activeProject.techs.map((tech, idx) => (
+                      <span key={idx} className="fp-tag">{tech}</span>
+                    ))}
+                  </div>
+                )}
               </div>
-            ))}
-          </div>
+
+              <div className="pd-section">
+                <h3>{lang === 'id' ? 'Ringkasan Proyek (Overview)' : 'Project Overview'}</h3>
+                <p>{activeProject.overview || activeProject.desc}</p>
+              </div>
+
+              {activeProject.features && (
+                <div className="pd-section">
+                  <h3>{lang === 'id' ? 'Fitur Utama (Key Features)' : 'Key Features'}</h3>
+                  <ul className="pd-features">
+                    {activeProject.features.map((feat, idx) => (
+                      <li key={idx}>
+                        <strong>{feat.split(':')[0]}:</strong> {feat.split(':')[1] || feat}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              )}
+
+              {/* Slider Gambar jika ada */}
+              {activeProject.detailImages && activeProject.detailImages.length > 0 && (
+                <div className="pd-section" style={{ marginTop: '50px' }}>
+                  <ImageSlider images={activeProject.detailImages} />
+                </div>
+              )}
+
+              {/* Tombol HANYA muncul jika demoLink ada dan BUKAN tanda pagar (#) */}
+              {activeProject.demoLink && activeProject.demoLink !== '#' && activeProject.demoLink !== 'LINK_FIGMA' && (
+                <div style={{ textAlign: 'center', marginTop: '40px' }}>
+                  <a href={activeProject.demoLink} target="_blank" rel="noreferrer" className="pd-external-link">
+                    {lang === 'id' ? 'Buka Demo↗' : 'Open External Link ↗'}
+                  </a>
+                </div>
+              )}
+
+            </div>
+          )}
+
         </main>
       )}
 
@@ -668,8 +1479,8 @@ export default function App() {
 
           <div className="cert-controls">
             <select className="cert-sort-select" value={certSort} onChange={(e) => setCertSort(e.target.value)}>
-              <option value="newest">{lang === 'id' ? 'Urutkan: Tanggal Terbaru' : 'Sort by: Newest'}</option>
-              <option value="oldest">{lang === 'id' ? 'Urutkan: Tanggal Terlama' : 'Sort by: Oldest'}</option>
+              <option value="newest">{lang === 'id' ? 'Urutkan: Terbaru' : 'Sort by: Newest'}</option>
+              <option value="oldest">{lang === 'id' ? 'Urutkan: Terlama' : 'Sort by: Oldest'}</option>
             </select>
           </div>
 
