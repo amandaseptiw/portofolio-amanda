@@ -1455,3 +1455,85 @@ nav.glass-nav button.active {
   .project-detail-container { padding: 30px 20px; }
   .pd-title { font-size: 32px; }
 }
+
+/* --- HAMBURGER MENU RESPONSIVE (MOBILE) --- */
+.hamburger-btn {
+  display: none; /* Sembunyikan secara default di laptop/PC */
+}
+
+.mobile-menu-wrapper {
+  display: contents; /* MAGIC: Mempertahankan layout flexbox asli di desktop! */
+}
+
+/* Pengaturan Khusus untuk Layar HP / Tablet Kecil */
+@media (max-width: 850px) {
+  .top-header {
+    position: relative; /* Agar menu menempel pas di bawah header */
+  }
+
+  .hamburger-btn {
+    display: block;
+    background: transparent;
+    border: none;
+    font-size: 24px;
+    color: var(--maroon);
+    cursor: pointer;
+    z-index: 101;
+    transition: 0.3s ease;
+  }
+  
+  .hamburger-btn:hover {
+    transform: scale(1.1);
+  }
+
+  .mobile-menu-wrapper {
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+    top: 100%; /* Turun ke bawah header */
+    left: 0;
+    right: 0;
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    padding: 20px;
+    border-radius: 0 0 20px 20px;
+    border-bottom: 1px solid var(--glass-border);
+    box-shadow: 0 15px 40px rgba(145, 30, 30, 0.15);
+    gap: 20px;
+    
+    /* Efek Animasi Sembunyi/Tampil */
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-20px);
+    transition: all 0.3s ease;
+    z-index: 100;
+  }
+
+  .mobile-menu-wrapper.open {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+  }
+
+  /* Rapikan Navigasi agar memanjang ke bawah di HP */
+  .mobile-menu-wrapper .glass-nav {
+    flex-direction: column;
+    width: 100%;
+    border-radius: 16px;
+  }
+
+  .mobile-menu-wrapper .glass-nav button {
+    width: 100%;
+    padding: 12px;
+    border-radius: 10px;
+  }
+
+  /* Rapikan Jam dan Bahasa di HP */
+  .mobile-menu-wrapper .right-controls {
+    width: 100%;
+    justify-content: center;
+    padding-top: 15px;
+    border-top: 1px solid rgba(145, 30, 30, 0.1);
+  }
+}

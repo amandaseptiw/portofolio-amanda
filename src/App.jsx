@@ -95,6 +95,9 @@ export default function App() {
   // --- STATE BARU UNTUK HALAMAN DETAIL PROYEK ---
   const [activeProject, setActiveProject] = useState(null);
 
+  // --- STATE MENU MOBILE ---
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+
   // Reset activeProject jika pengguna berpindah tab menu
   useEffect(() => {
     setActiveProject(null);
@@ -1274,19 +1277,37 @@ const skillsData = [
       <header className="top-header">
         <div className="time-display">{time || '11:45:58'} WIB</div>
         
-        <nav className="glass-nav">
-          {Object.keys(c.nav).map((key) => (
-            <button key={key} className={tab === key ? 'active' : ''} onClick={() => setTab(key)}>
-              {c.nav[key]}
-            </button>
-          ))}
-        </nav>
+        {/* Tombol Hamburger (Hanya tampil di HP) */}
+        <button 
+          className="hamburger-btn" 
+          onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+        >
+          {isMobileMenuOpen ? '✖' : '☰'}
+        </button>
 
-        <div className="right-controls">
-          <span className="timezone">Asia/Jakarta</span>
-          <div className="lang-switch">
-            <button className={lang === 'en' ? 'active' : ''} onClick={() => setLang('en')}>EN</button>
-            <button className={lang === 'id' ? 'active' : ''} onClick={() => setLang('id')}>ID</button>
+        {/* Wrapper Menu untuk Layar Mobile */}
+        <div className={`mobile-menu-wrapper ${isMobileMenuOpen ? 'open' : ''}`}>
+          <nav className="glass-nav">
+            {Object.keys(c.nav).map((key) => (
+              <button 
+                key={key} 
+                className={tab === key ? 'active' : ''} 
+                onClick={() => {
+                  setTab(key);
+                  setIsMobileMenuOpen(false); // Otomatis menutup menu setelah diklik
+                }}
+              >
+                {c.nav[key]}
+              </button>
+            ))}
+          </nav>
+
+          <div className="right-controls">
+            <span className="timezone">Asia/Jakarta</span>
+            <div className="lang-switch">
+              <button className={lang === 'en' ? 'active' : ''} onClick={() => setLang('en')}>EN</button>
+              <button className={lang === 'id' ? 'active' : ''} onClick={() => setLang('id')}>ID</button>
+            </div>
           </div>
         </div>
       </header>
